@@ -39,7 +39,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 **Objective:** Designed a gearbox according to ISO standards and design parameters.
 * **Tools:** MATLAB
 * **Details:** Load Analysis, Selection of Gears, Bearings, and Mountings with Adequate Lubrication.
-* [Link to Project Files / PDF Report](Design_of_A_Gearbox_Project.pdf)
+* [Link to Project Files / PDF Report](Design_of_a_Gearbox_Project.pdf)
 
 
 ## 📚 Education
