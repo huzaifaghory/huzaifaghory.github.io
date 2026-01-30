@@ -11,7 +11,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 ## 📂 Featured Projects
 
-### 1. Conjugate Heat Transfer Anlysis of a Heat Exchanger
+### 1. Conjugate Heat Transfer Analysis of a Heat Exchanger
 **Objective:** Analyzed heat exchanger fluid domain to achieve optimized design parameters.
 * **Tools:** SimScale, MATLAB
 * **Details:** Conducted mesh independence studies and validated results against theoretical data.
