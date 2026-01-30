@@ -49,4 +49,4 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 ## 📫 Contact
 * [LinkedIn](https://www.linkedin.com/in/muhammad-huzaifa-khan-ghory/)
-* [Email Me](huzaifa.ghory@gmail.com)
+* huzaifa.ghory@gmail.com
