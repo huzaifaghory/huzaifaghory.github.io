@@ -114,8 +114,8 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     </div>
   </a>
 
-  <a href="Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf" class="project-card">
-    <img src="structure-design" alt="Load Structure" class="project-image">
+  <a href="structure-design" class="project-card">
+    <img src="thumb_load.png" alt="Load Structure" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Load Bearing Structure</div>
       <p>Design, fabrication, and testing with minimal resources.</p>
