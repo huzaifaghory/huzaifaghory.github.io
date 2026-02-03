@@ -5,7 +5,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 
 ## 🛠 Skills & Tools
-* **Analysis & Simulation:** MATLAB, SimScale, Ansys, OpenFOAM, ParaView, FEMM, ElmerFEM
+* **Analysis & Simulation:**
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge)
 ![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black)
 ![SimScale](https://img.shields.io/badge/SimScale-Simulation-red?logo=dassaul&style=for-the-badge)
