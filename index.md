@@ -11,6 +11,8 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 ![SimScale](https://img.shields.io/badge/SimScale-Simulation-red?logo=dassaul&style=for-the-badge)
 ![OpenFOAM](https://img.shields.io/badge/OpenFOAM-Simulation-blue?logo=dassaul&style=for-the-badge)
 ![FEMM](https://img.shields.io/badge/FEMM-Simulation-green?logo=dassaul&style=for-the-badge)
+![ElmerFEM](https://img.shields.io/badge/ElmerFEM-Simulation-black?logo=dassaul&style=for-the-badge)
+![ParaView](https://img.shields.io/badge/ParaView-Data_Analysis-yellow?logo=dassaul&style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
 * **Design & CAD:**
 ![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-red?logo=dassaul&style=for-the-badge)
