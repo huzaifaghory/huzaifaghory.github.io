@@ -8,9 +8,9 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 * **Analysis & Simulation:** MATLAB, SimScale, Ansys, OpenFOAM, ParaView, FEMM, ElmerFEM
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge)
 ![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black)
-![SimScale](https://img.shields.io/badge/SimScale-CAD-red?logo=dassaul&style=for-the-badge)
-![OpenFOAM](https://img.shields.io/badge/OpenFOAM-CAD-blue?logo=dassaul&style=for-the-badge)
-![FEMM](https://img.shields.io/badge/FEMM-CAD-green?logo=dassaul&style=for-the-badge)
+![SimScale](https://img.shields.io/badge/SimScale-Simulation-red?logo=dassaul&style=for-the-badge)
+![OpenFOAM](https://img.shields.io/badge/OpenFOAM-Simulation-blue?logo=dassaul&style=for-the-badge)
+![FEMM](https://img.shields.io/badge/FEMM-Simulation-green?logo=dassaul&style=for-the-badge)
 ![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
 * **Design & CAD:**
 ![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-red?logo=dassaul&style=for-the-badge)
