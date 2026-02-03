@@ -3,23 +3,6 @@
 
 Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynamics (CFD)**, **Acoustics**, and **Non-Destructive Testing (NDT)**. My work focuses on bridging theoretical analysis with practical simulation to solve complex mechanical problems.
 
-
-## 🛠 Skills & Tools
-* **Analysis & Simulation:**
-![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge)
-![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black)
-![SimScale](https://img.shields.io/badge/SimScale-Simulation-red?logo=dassaul&style=for-the-badge)
-![OpenFOAM](https://img.shields.io/badge/OpenFOAM-Simulation-blue?logo=dassaul&style=for-the-badge)
-![FEMM](https://img.shields.io/badge/FEMM-Simulation-green?logo=dassaul&style=for-the-badge)
-![ElmerFEM](https://img.shields.io/badge/ElmerFEM-Simulation-black?logo=dassaul&style=for-the-badge)
-![ParaView](https://img.shields.io/badge/ParaView-Data_Analysis-yellow?logo=dassaul&style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
-* **Design & CAD:**
-![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-red?logo=dassaul&style=for-the-badge)
-![Autodesk Fusion 360](https://img.shields.io/badge/AutodeskFusion360-CAD-red?logo=dassaul&style=for-the-badge)
-* **Documentation:**
-![LaTeX](https://img.shields.io/badge/LaTeX-Overleaf-47A141?logo=latex&style=for-the-badge)
-
 ## 🛠 Skills & Tools
 
 ### 🌊 Analysis & Simulation
