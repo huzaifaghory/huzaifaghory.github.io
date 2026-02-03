@@ -96,7 +96,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     </div>
   </a>
 
-  <a href="Eddy_Current_Testing_Probe_Design.pdf" class="project-card">
+  <a href="ect-probe.md" class="project-card">
     <img src="thumb_probe.png" alt="ECT Probe" class="project-image">
     <div class="project-overlay">
       <div class="project-title">ECT Probe Design</div>
