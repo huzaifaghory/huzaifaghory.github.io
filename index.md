@@ -87,7 +87,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 <div class="project-grid">
 
-  <a href="CHT_Analysis.pdf" class="project-card">
+  <a href="heat-exchanger" class="project-card">
     <img src="thumb_heat.png" alt="CFD Heat Exchanger" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Heat Exchanger CFD</div>
