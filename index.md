@@ -8,6 +8,11 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 * **Analysis & Simulation:** MATLAB, SimScale, Ansys, OpenFOAM, ParaView, FEMM, ElmerFEM
 * **Design & CAD:** Autodesk Fusion 360, SolidWorks
 * **Documentation:** LaTeX (Overleaf), Technical Report Writing
+![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge)
+![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
+![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-red?logo=dassaul&style=for-the-badge)
+![LaTeX](https://img.shields.io/badge/LaTeX-Overleaf-47A141?logo=latex&style=for-the-badge)
 
 ## 📂 Featured Projects
 
