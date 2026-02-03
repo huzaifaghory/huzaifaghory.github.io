@@ -34,4 +34,4 @@ The modified baffle design resulted in:
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](Conjugate_Transfer_Analysis_of_a_Heat_Exchanger.pdf)
+[**📄 Download Full Project Report (PDF)**](CHT_Analysis.pdf)
