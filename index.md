@@ -124,7 +124,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="Design_of_a_Gearbox_Project.pdf" class="project-card">
-    <img src="https://via.placeholder.com/400x300?text=Gearbox" alt="Gearbox" class="project-image">
+    <img src="thumb_gear.png" alt="Gearbox" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Gearbox Design</div>
       <p>ISO standard gearbox design with MATLAB analysis.</p>
