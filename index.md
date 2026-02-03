@@ -105,7 +105,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     </div>
   </a>
 
-  <a href="Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf" class="project-card">
+  <a href="acoustics" class="project-card">
     <img src="thumb_acoustic.png" alt="Acoustics" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Acoustic Bubble Detection</div>
