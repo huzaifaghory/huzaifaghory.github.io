@@ -24,6 +24,119 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 ## 📂 Featured Projects
 
+<style>
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive Grid */
+  gap: 20px;
+  margin-top: 20px;
+}
+.project-card {
+  position: relative;
+  height: 250px; /* Fixed height for uniformity */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-decoration: none !important; /* Removes default underline */
+}
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image covers area without stretching */
+  display: block;
+  transition: transform 0.3s ease;
+}
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Dark see-through background */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+  padding: 20px;
+  text-align: center;
+}
+/* HOVER EFFECTS */
+.project-card:hover .project-overlay {
+  opacity: 1; /* Show text on hover */
+}
+.project-card:hover .project-image {
+  transform: scale(1.1); /* Zoom image slightly */
+}
+.project-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.project-tags {
+  font-size: 0.8rem;
+  background: #007bff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+</style>
+
+<div class="project-grid">
+
+  <a href="Conjugate_Transfer_Analysis_of_a_Heat_Exchanger.pdf" class="project-card">
+    <img src="https://via.placeholder.com/400x300?text=Heat+Exchanger" alt="CFD Heat Exchanger" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Heat Exchanger CFD</div>
+      <p>Optimization of fluid domain using SimScale & MATLAB.</p>
+      <span class="project-tags">View Report (PDF)</span>
+    </div>
+  </a>
+
+  <a href="Eddy_Current_Testing_Probe_Design.pdf" class="project-card">
+    <img src="https://via.placeholder.com/400x300?text=ECT+Probe" alt="ECT Probe" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">ECT Probe Design</div>
+      <p>Custom coil probe for detecting surface flaws.</p>
+      <span class="project-tags">View Report (PDF)</span>
+    </div>
+  </a>
+
+  <a href="Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf" class="project-card">
+    <img src="https://via.placeholder.com/400x300?text=Acoustics" alt="Acoustics" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Acoustic Bubble Detection</div>
+      <p>Numerical modeling of ultrasonic transducers.</p>
+      <span class="project-tags">View Report (PDF)</span>
+    </div>
+  </a>
+
+  <a href="Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf" class="project-card">
+    <img src="https://via.placeholder.com/400x300?text=Structure+Design" alt="Load Structure" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Load Bearing Structure</div>
+      <p>Design, fabrication, and testing with minimal resources.</p>
+      <span class="project-tags">View Report (PDF)</span>
+    </div>
+  </a>
+
+  <a href="Design_of_a_Gearbox_Project.pdf" class="project-card">
+    <img src="https://via.placeholder.com/400x300?text=Gearbox" alt="Gearbox" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Gearbox Design</div>
+      <p>ISO standard gearbox design with MATLAB analysis.</p>
+      <span class="project-tags">View Report (PDF)</span>
+    </div>
+  </a>
+
+</div>
+
+
+## 📂 Featured Projects
+
 ### 1. Conjugate Heat Transfer Analysis of a Heat Exchanger
 **Objective:** Analyzed heat exchanger fluid domain to achieve optimized design parameters.
 * **Tools:** SimScale, MATLAB
