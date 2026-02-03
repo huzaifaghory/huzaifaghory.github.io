@@ -88,7 +88,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 <div class="project-grid">
 
   <a href="Conjugate_Transfer_Analysis_of_a_Heat_Exchanger.pdf" class="project-card">
-    <img src="https://via.placeholder.com/400x300?text=Heat+Exchanger" alt="CFD Heat Exchanger" class="project-image">
+    <img src="thumb_heat.png" alt="CFD Heat Exchanger" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Heat Exchanger CFD</div>
       <p>Optimization of fluid domain using SimScale & MATLAB.</p>
@@ -97,7 +97,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="Eddy_Current_Testing_Probe_Design.pdf" class="project-card">
-    <img src="https://via.placeholder.com/400x300?text=ECT+Probe" alt="ECT Probe" class="project-image">
+    <img src="thumb_probe.png" alt="ECT Probe" class="project-image">
     <div class="project-overlay">
       <div class="project-title">ECT Probe Design</div>
       <p>Custom coil probe for detecting surface flaws.</p>
@@ -106,7 +106,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf" class="project-card">
-    <img src="https://via.placeholder.com/400x300?text=Acoustics" alt="Acoustics" class="project-image">
+    <img src="thumb_acoustics.png" alt="Acoustics" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Acoustic Bubble Detection</div>
       <p>Numerical modeling of ultrasonic transducers.</p>
