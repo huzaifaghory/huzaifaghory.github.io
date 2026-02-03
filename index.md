@@ -134,39 +134,126 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 </div>
 
-
 ## 📂 Featured Projects
 
-### 1. Conjugate Heat Transfer Analysis of a Heat Exchanger
-**Objective:** Analyzed heat exchanger fluid domain to achieve optimized design parameters.
-* **Tools:** SimScale, MATLAB
-* **Details:** Conducted mesh independence studies and validated results against theoretical data.
-* [Link to Project Files / PDF Report](Conjugate_Transfer_Analysis_of_a_Heat_Exchanger.pdf)
+<style>
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+.project-card {
+  position: relative;
+  height: 250px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-decoration: none !important;
+  color: inherit; /* Inherit text color */
+}
+.project-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Slightly darker for better text contrast */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 20px; 
+  box-sizing: border-box; /* 🟢 FIXES TEXT CUTOFF */
+  text-align: center;
+}
+/* HOVER EFFECTS */
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+.project-card:hover .project-image {
+  transform: scale(1.1);
+}
+.project-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.project-desc {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+/* NEW "VIEW DETAILS" TEXT STYLE (No Button) */
+.project-link-text {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #4db8ff; /* Light blue text */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 5px;
+}
+</style>
 
-### 2. Eddy Current Testing (ECT) Probe Design
-**Objective:** Designed and wired a custom coil probe for detecting surface flaws in conductive materials.
-* **Tools:** Autodesk Fusion, FEMM, MATLAB, Circuit Design
-* **Outcome:** Successfully demonstrated liftoff variation, and edge effect.
-* [Link to Project Files](Eddy_Current_Testing_Probe_Design.pdf)
+<div class="project-grid">
 
-### 3. Acoustics Engineering Analysis
-**Objective:** Modeled fluid solid harmonic analysis using numerical model of ultrsonic piezoelectric transducers.
-* **Tools:** ANSYS (Coupled Field Harmonic Response Model), MATLAB
-* **Details:** Investigated the effect of different observeation frequencies on various bubble sizes to develop efficient bubble detection.
-* [Link to Project Files](Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf)
+  <a href="heat-exchanger" class="project-card">
+    <img src="thumb_heat.png" alt="CFD Heat Exchanger" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Heat Exchanger CFD</div>
+      <p class="project-desc">Optimization of fluid domain using SimScale & MATLAB.</p>
+      <div class="project-link-text">View Details &rarr;</div>
+    </div>
+  </a>
 
-### 4. Design and Manufacturing of a Load Bearing Structure
-**Objective:** Designed a load bearing structure utilizing minimal resources. 
-* **Tools:** SOLIDWORKS, Siemens NX 11
-* **Details:** Design, Fabrication and Testing of the Load Bearing structure.
-* [Link to Project Files / PDF Report](Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf)
+  <a href="ect-probe" class="project-card">
+    <img src="thumb_probe.png" alt="ECT Probe" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">ECT Probe Design</div>
+      <p class="project-desc">Custom coil probe for detecting surface flaws.</p>
+      <div class="project-link-text">View Details &rarr;</div>
+    </div>
+  </a>
 
-### 5. Design of a Gearbox
-**Objective:** Designed a gearbox according to ISO standards and design parameters.
-* **Tools:** MATLAB
-* **Details:** Load Analysis, Selection of Gears, Bearings, and Mountings with Adequate Lubrication.
-* [Link to Project Files / PDF Report](Design_of_a_Gearbox_Project.pdf)
+  <a href="acoustics" class="project-card">
+    <img src="thumb_acoustic.png" alt="Acoustics" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Acoustic Bubble Detection</div>
+      <p class="project-desc">Numerical modeling of ultrasonic transducers.</p>
+      <div class="project-link-text">View Details &rarr;</div>
+    </div>
+  </a>
 
+  <a href="structure-design" class="project-card">
+    <img src="thumb_load.png" alt="Load Structure" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Load Bearing Structure</div>
+      <p class="project-desc">Design, fabrication, and testing with minimal resources.</p>
+      <div class="project-link-text">View Details &rarr;</div>
+    </div>
+  </a>
+
+  <a href="gearbox" class="project-card">
+    <img src="thumb_gear.png" alt="Gearbox" class="project-image">
+    <div class="project-overlay">
+      <div class="project-title">Gearbox Design</div>
+      <p class="project-desc">ISO standard gearbox design with MATLAB analysis.</p>
+      <div class="project-link-text">View Details &rarr;</div>
+    </div>
+  </a>
+
+</div>
 
 ## 📚 Education
 **Middle East Technical University (METU)**
