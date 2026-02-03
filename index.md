@@ -96,7 +96,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     </div>
   </a>
 
-  <a href="ect-probe.md" class="project-card">
+  <a href="ect-probe" class="project-card">
     <img src="thumb_probe.png" alt="ECT Probe" class="project-image">
     <div class="project-overlay">
       <div class="project-title">ECT Probe Design</div>
@@ -115,7 +115,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf" class="project-card">
-    <img src="thumb_load.png" alt="Load Structure" class="project-image">
+    <img src="structure-design" alt="Load Structure" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Load Bearing Structure</div>
       <p>Design, fabrication, and testing with minimal resources.</p>
