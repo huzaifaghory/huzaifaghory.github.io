@@ -6,24 +6,6 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 ## 🛠 Skills & Tools
 
 ### 🌊 Analysis & Simulation
-![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge)
-![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black)
-![SimScale](https://img.shields.io/badge/SimScale-Cloud_CFD-004C97?style=for-the-badge)
-![OpenFOAM](https://img.shields.io/badge/OpenFOAM-CFD-44CC11?style=for-the-badge)
-![ElmerFEM](https://img.shields.io/badge/ElmerFEM-FEA-black?style=for-the-badge)
-![ParaView](https://img.shields.io/badge/ParaView-Data_Viz-FF6600?style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
-
-### ⚙️ Design & CAD
-![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-cB2027?logo=solidworks&style=for-the-badge&logoColor=white)
-![Fusion 360](https://img.shields.io/badge/Autodesk-Fusion_360-F57826?logo=autodesk&style=for-the-badge&logoColor=white)
-
-### 📝 Documentation
-![LaTeX](https://img.shields.io/badge/LaTeX-Overleaf-47A141?logo=latex&style=for-the-badge)
-
-## 🛠 Skills & Tools
-
-### 🌊 Analysis & Simulation
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge) &nbsp;
 ![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black) &nbsp;
 ![SimScale](https://img.shields.io/badge/SimScale-Cloud_CFD-004C97?style=for-the-badge) <br><br>
