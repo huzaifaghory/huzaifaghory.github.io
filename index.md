@@ -123,7 +123,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     </div>
   </a>
 
-  <a href="Design_of_a_Gearbox_Project.pdf" class="project-card">
+  <a href="gearbox" class="project-card">
     <img src="thumb_gear.png" alt="Gearbox" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Gearbox Design</div>
