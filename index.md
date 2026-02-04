@@ -2,43 +2,35 @@
   /* IMPORT PROFESSIONAL FONT */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
 
-  /* FORCE FONT EVERYWHERE */
-  * {
+  /* GLOBAL FONT RESET */
+  body {
     font-family: 'Inter', sans-serif !important;
+    font-size: 16px; /* Standard reading size */
+    line-height: 1.6;
+    color: #333;
   }
 
-  /* RESET HEADINGS */
-  h1, h2, h3, h4 {
-    font-weight: 600 !important;
-    letter-spacing: -0.5px !important;
-    color: #111 !important;
-    margin-top: 1.5em !important;
-    margin-bottom: 0.5em !important;
-  }
+  /* HEADINGS - FIXED SIZES */
+  h1 { font-size: 2.2rem !important; margin-bottom: 0.5em !important; }
+  h2 { font-size: 1.5rem !important; margin-top: 1.5em !important; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+  h3 { font-size: 1.2rem !important; margin-top: 1.2em !important; color: #444 !important; }
 
-  /* CLEAN UP THE HEADER SPACING ISSUE */
-  header {
-    margin-bottom: 20px !important;
-  }
+  /* REMOVE THE DEFAULT THEME LOGO IF IT APPEARS */
+  .logo { display: none; }
 
-  /* PROFESSIONAL LINK STYLES */
-  a {
-    color: #0056b3 !important;
-    text-decoration: none !important;
-  }
-  a:hover {
-    text-decoration: underline !important;
-  }
+  /* LINKS */
+  a { color: #0056b3 !important; text-decoration: none; }
+  a:hover { text-decoration: underline !important; }
+  
+  /* BADGE SPACING FIX */
+  img[src*="shields.io"] { margin-bottom: 5px; }
 </style>
-
-# Muhammad Huzaifa Khan Ghory
-### Mechanical Engineer | CFD & FEA Specialist | METU Student
 
 Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynamics (CFD)**, **Acoustics**, and **Non-Destructive Testing (NDT)**. My work focuses on bridging theoretical analysis with practical simulation to solve complex mechanical problems.
 
 ## 🛠 Skills & Tools
 
-### 🌊 Analysis & Simulation
+### Analysis & Simulation
 ![MATLAB](https://img.shields.io/badge/MATLAB-R2023b-orange?logo=mathworks&style=for-the-badge) &nbsp;
 ![Ansys](https://img.shields.io/badge/Ansys-Simulation-FFB114?logo=ansys&style=for-the-badge&logoColor=black) &nbsp;
 ![SimScale](https://img.shields.io/badge/SimScale-Cloud_CFD-004C97?style=for-the-badge) <br><br>
@@ -48,14 +40,14 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 ![ParaView](https://img.shields.io/badge/ParaView-Data_Viz-FF6600?style=for-the-badge) &nbsp;
 ![Python](https://img.shields.io/badge/Python-3.9-blue?logo=python&style=for-the-badge)
 
-### ⚙️ Design & CAD
+### Design & CAD
 ![SolidWorks](https://img.shields.io/badge/SolidWorks-CAD-cB2027?logo=solidworks&style=for-the-badge&logoColor=white) &nbsp;
 ![Fusion 360](https://img.shields.io/badge/Autodesk-Fusion_360-F57826?logo=autodesk&style=for-the-badge&logoColor=white)
 
 ### 📝 Documentation
 ![LaTeX](https://img.shields.io/badge/LaTeX-Overleaf-47A141?logo=latex&style=for-the-badge)
 
-## 📂 Featured Projects
+## Featured Projects
 
 <style>
 .project-grid {
@@ -176,11 +168,11 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 </div>
 
-## 📚 Education
+## Education
 **Middle East Technical University (METU)**
 * *Current Student*
 * Focus: Computational Fluid Dynamics using OpenFOAM, Simscale, Acoustic Analysis
 
-## 📫 Contact
+## Contact
 * [LinkedIn](https://www.linkedin.com/in/muhammad-huzaifa-khan-ghory/)
 * huzaifa.ghory@gmail.com
