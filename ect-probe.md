@@ -2,7 +2,7 @@
 
 # Eddy Current Testing (ECT) Probe Design
 
-![ECT Probe Assembly](thumb_probe.png)
+![ECT Probe Assembly](images/thumb_probe.png)
 *Figure 1: 3D Render of the custom coil probe assembly designed in Fusion 360.*
 
 ## 🎯 Objective
@@ -30,10 +30,10 @@ The custom probe successfully identified surface defects on an aluminum test blo
 * **Edge Effect:** Characterized the signal distortion near the edges of the workpiece, establishing a "dead zone" limit for the probe.
 
 ### Visuals
-![Impedance Plane Plot](thumb_ect_graph.png)
+![Impedance Plane Plot](images/thumb_ect_graph.png)
 *Figure 2: MATLAB plot showing the impedance plane trajectory for different defect depths.*
 
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](Eddy_Current_Testing_Probe_Design.pdf)
+[**📄 Download Full Project Report (PDF)**](project_pdfs/Eddy_Current_Testing_Probe_Design.pdf)
