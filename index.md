@@ -251,7 +251,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 ## Education
 **Middle East Technical University (METU)**
-* *Current Student*
+* BSc in Mechanical Engineering
 * Focus: Computational Fluid Dynamics using OpenFOAM, Simscale, Acoustic Analysis
 
 ## Contact
