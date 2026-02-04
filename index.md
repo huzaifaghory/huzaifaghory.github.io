@@ -97,7 +97,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 <div class="project-grid">
 
   <a href="heat-exchanger" class="project-card">
-    <img src="thumb_heat.png" alt="CFD Heat Exchanger" class="project-image">
+    <img src="images/thumb_heat.png" alt="CFD Heat Exchanger" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Heat Exchanger CFD</div>
       <p class="project-desc">Optimization of fluid domain using SimScale & MATLAB.</p>
@@ -106,7 +106,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="ect-probe" class="project-card">
-    <img src="thumb_probe.png" alt="ECT Probe" class="project-image">
+    <img src="images/thumb_probe.png" alt="ECT Probe" class="project-image">
     <div class="project-overlay">
       <div class="project-title">ECT Probe Design</div>
       <p class="project-desc">Custom coil probe for detecting surface flaws.</p>
@@ -115,16 +115,16 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="acoustics" class="project-card">
-    <img src="thumb_acoustic.png" alt="Acoustics" class="project-image">
+    <img src="images/thumb_acoustic.png" alt="Acoustics" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Acoustic Bubble Detection</div>
-      <p class="project-desc">Numerical modeling of ultrasonic transducers.</p>
+      <p class="project-desc">Numerical modeling of ultrasonic transducers to detect bubbles in fluid.</p>
       <div class="project-link-text">View Details &rarr;</div>
     </div>
   </a>
 
   <a href="structure-design" class="project-card">
-    <img src="thumb_load.png" alt="Load Structure" class="project-image">
+    <img src="images/thumb_load.png" alt="Load Structure" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Load Bearing Structure</div>
       <p class="project-desc">Design, fabrication, and testing with minimal resources.</p>
@@ -133,7 +133,7 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   </a>
 
   <a href="gearbox" class="project-card">
-    <img src="thumb_gear.png" alt="Gearbox" class="project-image">
+    <img src="images/thumb_gear.png" alt="Gearbox" class="project-image">
     <div class="project-overlay">
       <div class="project-title">Gearbox Design</div>
       <p class="project-desc">ISO standard gearbox design with MATLAB analysis.</p>
