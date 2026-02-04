@@ -226,6 +226,18 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
   }
 </style>
 
+
+<div class="exp-grid">
+  <div class="exp-date">Summer 2024</div>
+  <div>
+    <div class="exp-role">Quality Assurance Management</div>
+    <div class="exp-company">Beko Corporate</div>
+    <p class="exp-desc">
+      Performed Measurement System Analysis using Gage R&R by utilzing the Minitab Software.
+    </p>
+  </div>
+</div>
+
 <div class="exp-grid">
   <div class="exp-date">2025 – Present</div>
   <div>
@@ -233,17 +245,6 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
     <div class="exp-company">Freelance</div>
     <p class="exp-desc">
       Tutoring students from high school to engineering level in Calculus, Trigonometry, and Linear Algebra.
-    </p>
-  </div>
-</div>
-
-<div class="exp-grid">
-  <div class="exp-date">Summer 2024</div>
-  <div>
-    <div class="exp-role">Mechanical Engineering Intern</div>
-    <div class="exp-company">Company Name (e.g., TAI, Aselsan, etc.)</div>
-    <p class="exp-desc">
-      Assisted in thermal analysis of avionics components. Validated CAD models using SolidWorks simulations.
     </p>
   </div>
 </div>
