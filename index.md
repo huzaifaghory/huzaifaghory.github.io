@@ -1,3 +1,33 @@
+<style>
+/* PROFESSIONAL TYPOGRAPHY OVERRIDE */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif !important;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* HEADERS */
+h1, h2, h3 {
+  font-weight: 600;
+  color: #111; /* Darker black for authority */
+  letter-spacing: -0.5px; /* Tighter tracking looks more modern */
+  margin-top: 1.5em;
+}
+
+/* LINK COLORS (Corporate Blue) */
+a { color: #0056b3; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* REMOVING THE "BUTTON" LOOK FROM LINKS IF ANY REMAIN */
+.project-link-text {
+  color: #0056b3;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+</style>
+
+
 # Muhammad Huzaifa Khan Ghory
 ### Mechanical Engineer | CFD & FEA Specialist | METU Student
 
