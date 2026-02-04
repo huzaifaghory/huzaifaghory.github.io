@@ -5,25 +5,36 @@
   /* GLOBAL FONT RESET */
   body {
     font-family: 'Inter', sans-serif !important;
-    font-size: 16px; /* Standard reading size */
+    font-size: 16px;
     line-height: 1.6;
     color: #333;
   }
 
-  /* HEADINGS - FIXED SIZES */
-  h1 { font-size: 2.2rem !important; margin-bottom: 0.5em !important; }
-  h2 { font-size: 1.5rem !important; margin-top: 1.5em !important; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-  h3 { font-size: 1.2rem !important; margin-top: 1.2em !important; color: #444 !important; }
+  /* HEADINGS */
+  h1 { font-size: 2.2rem !important; margin-bottom: 0.5em !important; color: #000 !important; }
+  h2 { font-size: 1.5rem !important; margin-top: 1.5em !important; border-bottom: 1px solid #eee; padding-bottom: 10px; color: #000 !important; }
+  h3 { font-size: 1.2rem !important; margin-top: 1.2em !important; color: #222 !important; }
 
   /* REMOVE THE DEFAULT THEME LOGO IF IT APPEARS */
   .logo { display: none; }
 
-  /* LINKS */
-  a { color: #0056b3 !important; text-decoration: none; }
-  a:hover { text-decoration: underline !important; }
+  /* LINKS - NOW BLACK */
+  a { color: #000000 !important; text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline !important; opacity: 0.7; }
   
   /* BADGE SPACING FIX */
   img[src*="shields.io"] { margin-bottom: 5px; }
+
+  /* PROJECT "VIEW DETAILS" TEXT */
+  .project-link-text {
+    color: #fff !important; /* Keep white inside the dark overlay */
+    border: 1px solid #fff;
+    padding: 5px 10px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-top: 10px;
+    display: inline-block;
+  }
 </style>
 
 Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynamics (CFD)**, **Acoustics**, and **Non-Destructive Testing (NDT)**. My work focuses on bridging theoretical analysis with practical simulation to solve complex mechanical problems.
