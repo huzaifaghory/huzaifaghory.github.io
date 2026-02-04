@@ -2,7 +2,7 @@
 
 # Design & Manufacturing of a Load Bearing Structure
 
-![Structure Load Test](thumb_structure.png)
+![Structure Load Test](images/thumb_structure.png)
 *Figure 1: The final fabricated structure undergoing stress testing.*
 
 ## 🎯 Objective
@@ -29,10 +29,10 @@ The primary constraint was the **Strength-to-Weight Ratio**. We had a limited am
 * **Failure Mode:** Predicted buckling occurred exactly as simulated in FEA, validating the model.
 
 ### Visuals
-![FEA Stress Analysis](thumb_structure_fea.png)
+![FEA Stress Analysis](images/thumb_structure_fea.png)
 *Figure 2: Von Mises stress distribution analysis showing critical load paths.*
 
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf)
+[**📄 Download Full Project Report (PDF)**](project_pdfs/Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf)
