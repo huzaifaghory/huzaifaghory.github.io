@@ -2,7 +2,7 @@
 
 # Conjugate Heat Transfer Analysis of a Heat Exchanger
 
-![Main Simulation Image](thumb_heat.png)
+![Main Simulation Image](images/thumb_heat.png)
 *Figure 1: Velocity streamlines showing fluid flow through the exchanger.*
 
 ## 🎯 Objective
@@ -28,10 +28,10 @@ The modified baffle design resulted in:
 * **Uniform flow distribution** across the core elements.
 
 ### Visuals
-![Pressure Contour](thumb_heat.png)
+![Pressure Contour](images/thumb_heat.png)
 *Figure 2: Pressure contours showing drop across the domain.*
 
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](CHT_Analysis.pdf)
+[**📄 Download Full Project Report (PDF)**](project_pdfs/CHT_Analysis.pdf)
