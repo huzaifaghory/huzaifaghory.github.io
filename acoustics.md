@@ -1,5 +1,3 @@
-<img width="1875" height="517" alt="image" src="https://github.com/user-attachments/assets/e607f632-2c5c-4b11-9082-1a296839d47f" />[← Back to Portfolio](./)
-
 # Acoustic Bubble Detection in Fluid Domains
 
 ![Acoustic Simulation Field](images/thumb_acoustic.png)
