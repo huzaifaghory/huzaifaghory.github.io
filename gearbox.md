@@ -2,7 +2,7 @@
 
 # Design of a Two-Stage Reduction Gearbox
 
-![Gearbox Assembly](thumb_gearbox.png)
+![Gearbox Assembly](images/thumb_gearbox.png)
 *Figure 1: 3D Assembly of the gearbox showing input, intermediate, and output shafts.*
 
 ## 🎯 Objective
@@ -28,10 +28,10 @@ The primary challenge was balancing the **volume/weight** of the gearbox against
 * **Documentation:** Produced a complete set of engineering drawings (Bill of Materials, Section Views, Tolerancing).
 
 ### Visuals
-![Detailed Engineering Drawing](thumb_gearbox_dwg.png)
+![Detailed Engineering Drawing](images/thumb_gearbox_dwg.png)
 *Figure 2: Section view showing bearing arrangements and oil seal placements.*
 
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](Design_of_a_Gearbox_Project.pdf)
+[**📄 Download Full Project Report (PDF)**](project_pdfs/Design_of_a_Gearbox_Project.pdf)
