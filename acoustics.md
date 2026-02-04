@@ -1,8 +1,8 @@
-[← Back to Portfolio](./)
+<img width="1875" height="517" alt="image" src="https://github.com/user-attachments/assets/e607f632-2c5c-4b11-9082-1a296839d47f" />[← Back to Portfolio](./)
 
 # Acoustic Bubble Detection in Fluid Domains
 
-![Acoustic Simulation Field](thumb_acoustic.png)
+![Acoustic Simulation Field](images/thumb_acoustic.png)
 *Figure 1: Harmonic response analysis showing pressure wave propagation through the fluid domain.*
 
 ## 🎯 Objective
@@ -29,10 +29,10 @@ The simulation established a clear correlation between the bubble radius and the
 * **Efficiency:** Proposed an optimized frequency band for early detection of cavitation bubbles in hydraulic pumps.
 
 ### Visuals
-![Scattering Cross Section Graph](thumb_acoustic_graph.png)
+![Scattering Cross Section Graph](images/thumb_acoustic_graph.png)
 *Figure 2: MATLAB plot of Scattering Cross-Section vs. Frequency for different bubble sizes.*
 
 ---
 
 ### 📥 Downloads
-[**📄 Download Full Project Report (PDF)**](Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf)
+[**📄 Download Full Project Report (PDF)**](project_pdfs/Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf)
