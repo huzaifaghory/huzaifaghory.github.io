@@ -36,14 +36,12 @@
     display: inline-block;
   }
 </style>
-
-Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynamics (CFD)**, **Acoustics**, and **Non-Destructive Testing (NDT)**. My work focuses on bridging theoretical analysis with practical simulation to solve complex mechanical problems.
-
 <p align="center" style="margin-top: -20px; margin-bottom: 40px;">
   <a href="CV.pdf" target="_blank" style="font-weight: bold; border-bottom: 2px solid #000;">
     Download My CV (PDF) &darr;
   </a>
 </p>
+Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynamics (CFD)**, **Acoustics**, and **Non-Destructive Testing (NDT)**. My work focuses on bridging theoretical analysis with practical simulation to solve complex mechanical problems.
 
 ## 🛠 Skills & Tools
 
