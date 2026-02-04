@@ -183,6 +183,71 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 
 </div>
 
+## Professional Experience
+
+<style>
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr; /* Date on left, content on right */
+    gap: 20px;
+    margin-bottom: 30px;
+    align-items: baseline;
+  }
+  
+  .exp-date {
+    font-size: 0.85rem;
+    color: #666; /* Grey for the date to separate it visually */
+    font-weight: 500;
+    text-align: right;
+  }
+  
+  .exp-role {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #000;
+  }
+  
+  .exp-company {
+    font-weight: 400;
+    color: #444;
+  }
+  
+  .exp-desc {
+    font-size: 0.95rem;
+    color: #333;
+    margin-top: 5px;
+    max-width: 600px; /* Keeps line length readable */
+  }
+
+  /* MOBILE FIX */
+  @media (max-width: 600px) {
+    .exp-grid { grid-template-columns: 1fr; gap: 5px; margin-bottom: 25px; }
+    .exp-date { text-align: left; color: #888; font-size: 0.8rem; margin-bottom: 2px; }
+  }
+</style>
+
+<div class="exp-grid">
+  <div class="exp-date">2025 – Present</div>
+  <div>
+    <div class="exp-role">Private Tutor (Engineering Mathematics)</div>
+    <div class="exp-company">Freelance</div>
+    <p class="exp-desc">
+      Tutoring students from high school to engineering level in Calculus, Trigonometry, and Linear Algebra.
+    </p>
+  </div>
+</div>
+
+<div class="exp-grid">
+  <div class="exp-date">Summer 2024</div>
+  <div>
+    <div class="exp-role">Mechanical Engineering Intern</div>
+    <div class="exp-company">Company Name (e.g., TAI, Aselsan, etc.)</div>
+    <p class="exp-desc">
+      Assisted in thermal analysis of avionics components. Validated CAD models using SolidWorks simulations.
+    </p>
+  </div>
+</div>
+
 ## Education
 **Middle East Technical University (METU)**
 * *Current Student*
