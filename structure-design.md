@@ -2,7 +2,7 @@
 
 # Design & Manufacturing of a Load Bearing Structure
 
-![Structure Load Test](images/thumb_structure.png)
+![Structure Load Test](images/thumb_load.png)
 *Figure 1: The final fabricated structure undergoing stress testing.*
 
 ## 🎯 Objective
