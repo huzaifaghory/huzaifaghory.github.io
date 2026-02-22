@@ -37,7 +37,7 @@
   }
 </style>
 <p align="center" style="margin-top: -20px; margin-bottom: 40px;">
-  <a href="CV.pdf" target="_blank" style="font-weight: bold; border-bottom: 2px solid #000;">
+  <a href="CV_2026.pdf" target="_blank" style="font-weight: bold; border-bottom: 2px solid #000;">
     Download My CV (PDF) &darr;
   </a>
 </p>
