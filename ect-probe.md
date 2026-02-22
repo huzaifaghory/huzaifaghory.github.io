@@ -31,7 +31,7 @@ The custom probe successfully identified surface defects on an aluminum test blo
 
 ### Visuals
 ![Impedance Plane Plot](images/thumb_ect_graph.png)
-*Figure 2: MATLAB plot showing the impedance plane trajectory for different defect depths.*
+*Figure 2:FEMM Contour plot showing the eddy current penetration depth.*
 
 ---
 
