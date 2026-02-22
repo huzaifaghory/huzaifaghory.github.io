@@ -28,8 +28,8 @@ The modified baffle design resulted in:
 * **Uniform flow distribution** across the core elements.
 
 ### Visuals
-![Pressure Contour](images/thumb_heat.png)
-*Figure 2: Pressure contours showing drop across the domain.*
+![Pressure Contour](images/FineMesh.png)
+*Figure 2: Fine Mesh with 1.9 million cells used to conduct mesh independence study.*
 
 ---
 
