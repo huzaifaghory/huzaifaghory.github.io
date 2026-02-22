@@ -27,7 +27,6 @@ The primary challenge was balancing the **volume/weight** of the gearbox against
 * **Compactness:** Reduced the overall housing volume by 12% compared to the initial manual calculation.
 * **Documentation:** Produced a complete set of engineering drawings (Bill of Materials, Section Views, Tolerancing).
 
-### Visuals
 
 ---
 
