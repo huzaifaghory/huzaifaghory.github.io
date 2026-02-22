@@ -29,8 +29,7 @@ The primary constraint was the **Strength-to-Weight Ratio**. We had a limited am
 * **Failure Mode:** Predicted buckling occurred exactly as simulated in FEA, validating the model.
 
 ### Visuals
-![FEA Stress Analysis](images/thumb_structure_fea.png)
-*Figure 2: Von Mises stress distribution analysis showing critical load paths.*
+
 
 ---
 
