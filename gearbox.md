@@ -2,7 +2,7 @@
 
 # Design of a Two-Stage Reduction Gearbox
 
-![Gearbox Assembly](images/thumb_gearbox.png)
+![Gearbox Assembly](images/thumb_gear.png)
 *Figure 1: 3D Assembly of the gearbox showing input, intermediate, and output shafts.*
 
 ## 🎯 Objective
