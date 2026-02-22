@@ -29,7 +29,7 @@ The modified baffle design resulted in:
 
 ### Visuals
 ![Pressure Contour](images/FineMesh.png)
-*Figure 2: Fine Mesh with 1.9 million cells used to conduct mesh independence study.*
+*Figure 2: Temperature distribution contour with fine mesh (1.9 million cells) used to conduct mesh independence study.*
 
 ---
 
