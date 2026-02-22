@@ -28,7 +28,6 @@ The primary constraint was the **Strength-to-Weight Ratio**. We had a limited am
 * **Final Weight:** 15% lighter than the initial baseline design.
 * **Failure Mode:** Predicted buckling occurred exactly as simulated in FEA, validating the model.
 
-### Visuals
 
 
 ---
