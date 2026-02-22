@@ -28,8 +28,6 @@ The primary challenge was balancing the **volume/weight** of the gearbox against
 * **Documentation:** Produced a complete set of engineering drawings (Bill of Materials, Section Views, Tolerancing).
 
 ### Visuals
-![Detailed Engineering Drawing](images/thumb_gearbox_dwg.png)
-*Figure 2: Section view showing bearing arrangements and oil seal placements.*
 
 ---
 
