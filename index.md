@@ -239,12 +239,12 @@ Welcome to my engineering portfolio. I specialize in **Computational Fluid Dynam
 </div>
 
 <div class="exp-grid">
-  <div class="exp-date">2025 – Present</div>
+  <div class="exp-date">July 2025</div>
   <div>
-    <div class="exp-role">Private Tutor (Engineering Mathematics)</div>
-    <div class="exp-company">Freelance</div>
+    <div class="exp-role">Production Intern</div>
+    <div class="exp-company">Mim Engineering Construction Steel Ind. (Ankara, Türkiye)</div>
     <p class="exp-desc">
-      Tutoring students from high school to engineering level in Calculus, Trigonometry, and Linear Algebra.
+      Tracked the daily production workflow of heavy structural steel components for industrial facilities and bridges. Compiled manufacturing metrics and cross-checked dimensional tolerances of finished profiles prior to dispatch for on-site assembly.
     </p>
   </div>
 </div>
