@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECT Probe Design — Huzaifa Ghory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a18;
+    --muted: #8a8a85;
+    --faint: #e8e6e1;
+    --warm: #c8622a;
+    --line: rgba(26,26,24,0.1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  #cur {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--ink);
+    transform: translate(-50%,-50%);
+    transition: width 0.25s, height 0.25s;
+    mix-blend-mode: multiply;
+  }
+  body:has(a:hover) #cur { width: 40px; height: 40px; background: rgba(26,26,24,0.08); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-back {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-back-arrow { transition: transform 0.2s; display: inline-block; }
+  .nav-back:hover .nav-back-arrow { transform: translateX(-3px); }
+  .nav-title { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--ink); }
+  .nav-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+
+  .w { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+  #hero { padding: 8rem 5rem 5rem; border-bottom: 1px solid var(--line); }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;
+    opacity: 0; animation: up 0.6s 0.1s forwards;
+  }
+  .hero-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); }
+  .hero-tag {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border: 1px solid var(--faint); color: var(--muted);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1; letter-spacing: -0.02em; font-weight: 400;
+    max-width: 800px; margin-bottom: 2rem;
+    opacity: 0; animation: up 0.6s 0.25s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--muted); }
+  .hero-bottom {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 4rem; align-items: end;
+    opacity: 0; animation: up 0.6s 0.4s forwards;
+  }
+  .hero-summary { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
+  .hero-summary strong { color: var(--ink); font-weight: 500; }
+  .hero-stats { display: flex; flex-direction: column; gap: 1rem; text-align: right; }
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-val { font-family: 'Instrument Serif', serif; font-size: 1.8rem; line-height: 1; color: var(--warm); }
+  .stat-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 5rem 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-row { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; }
+  .section-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    padding-top: 0.3rem;
+  }
+
+  .prose { font-size: 0.95rem; color: #3a3a36; line-height: 1.85; }
+  .prose p + p { margin-top: 1.2rem; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .spec-item {
+    padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .spec-item:nth-child(odd) { padding-right: 2rem; border-right: 1px solid var(--line); }
+  .spec-item:nth-child(even) { padding-left: 2rem; }
+  .spec-key { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .spec-val { font-size: 0.9rem; color: var(--ink); font-weight: 400; }
+
+  .steps { display: flex; flex-direction: column; }
+  .step {
+    display: grid; grid-template-columns: 48px 1fr;
+    gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .step:first-child { border-top: 1px solid var(--line); }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step-num { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--faint); line-height: 1; padding-top: 0.1rem; }
+  .step-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+
+  .results-list { display: flex; flex-direction: column; }
+  .result-item {
+    display: flex; align-items: baseline; gap: 2rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .result-item:first-child { border-top: 1px solid var(--line); }
+  .result-item.visible { opacity: 1; transform: translateY(0); }
+  .result-label {
+    font-family: 'Instrument Serif', serif; font-size: 1.4rem;
+    color: var(--warm); line-height: 1.1; white-space: nowrap; min-width: 140px;
+  }
+  .result-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .result-desc strong { color: var(--ink); font-weight: 500; }
+
+  .img-block {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .img-block.visible { opacity: 1; transform: translateY(0); }
+  .img-block img { width: 100%; display: block; border: 1px solid var(--faint); }
+  .img-caption { margin-top: 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .download-link {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--ink); color: var(--bg);
+    text-decoration: none; padding: 0.9rem 1.8rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    transition: opacity 0.2s; cursor: none;
+  }
+  .download-link:hover { opacity: 0.75; }
+
+  .project-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3rem 0;
+  }
+  .proj-nav-link {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    text-decoration: none; color: var(--ink);
+    transition: opacity 0.2s; cursor: none;
+  }
+  .proj-nav-link:hover { opacity: 0.6; }
+  .proj-nav-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .proj-nav-title { font-family: 'Instrument Serif', serif; font-size: 1.1rem; }
+  .proj-nav-link.next { text-align: right; }
+
+  footer {
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--muted); }
+  .footer-copy { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav, #hero, footer { padding-left: 2rem; padding-right: 2rem; }
+    .w { padding: 0 2rem; }
+    .section-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { text-align: left; flex-direction: row; gap: 2rem; }
+    .specs-grid { grid-template-columns: 1fr; }
+    .spec-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .spec-item:nth-child(even) { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav id="nav">
+  <a href="../" class="nav-back"><span class="nav-back-arrow">←</span> Portfolio</a>
+  <span class="nav-title">ECT Probe Design</span>
+  <span class="nav-num">02 / 05</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-meta">
+    <span class="hero-num">Project 02</span>
+    <span class="hero-tag">NDT</span>
+    <span class="hero-tag">FEMM</span>
+    <span class="hero-tag">MATLAB</span>
+  </div>
+  <h1 class="hero-title">Eddy Current Testing<br><em>Probe Design</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-summary">
+      Design, fabrication, and testing of a <strong>custom ECT probe</strong> built from scratch — capable of detecting surface flaws in conductive materials and distinguishing defect signals from liftoff noise.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-val">10–100</span>
+        <span class="stat-label">kHz operating range</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">AWG 30</span>
+        <span class="stat-label">Copper coil wire</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">Low-cost</span>
+        <span class="stat-label">vs. commercial probe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/thumb_probe.png" alt="3D render of the custom ECT coil probe assembly">
+    <div class="img-caption">Fig. 1 — 3D render of the custom coil probe assembly designed in Fusion 360</div>
+  </div>
+</div>
+
+<!-- OBJECTIVE -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Objective</div>
+      <div class="prose reveal">
+        <p>To design, fabricate, and test a custom Eddy Current Testing probe capable of <strong>detecting surface flaws in conductive materials</strong> — demonstrating the principles of electromagnetic induction and signal impedance analysis.</p>
+        <p>Commercial ECT probes are expensive, closed systems. The challenge was to build a <strong>low-cost, functional probe from scratch</strong> that could distinguish between a crack (a real defect) and liftoff (distance variation from the surface) — a common and difficult source of noise in NDT.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL DETAILS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Technical Details</div>
+      <div class="specs-grid reveal">
+        <div class="spec-item">
+          <span class="spec-key">EM Simulation</span>
+          <span class="spec-val">FEMM (Finite Element Method Magnetics)</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">CAD Design</span>
+          <span class="spec-val">Autodesk Fusion 360 (probe casing)</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Signal Analysis</span>
+          <span class="spec-val">MATLAB — impedance plotting & processing</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Circuit Design</span>
+          <span class="spec-val">Wheatstone Bridge configuration</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Coil Hardware</span>
+          <span class="spec-val">Copper coil AWG 30, ferrite core</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Test Equipment</span>
+          <span class="spec-val">Oscilloscope, function generator</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Operating Frequency</span>
+          <span class="spec-val">10 kHz – 100 kHz</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Test Material</span>
+          <span class="spec-val">Aluminium block with artificial defects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Methodology</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <div class="step-title">Coil Design</div>
+            <div class="step-desc">Calculated the optimal number of turns and wire gauge to achieve the target inductance for the operating frequency range of 10–100 kHz. Coil geometry balanced sensitivity against spatial resolution.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <div class="step-title">Circuit Design — Wheatstone Bridge</div>
+            <div class="step-desc">Implemented a <strong>Wheatstone Bridge</strong> circuit to null the probe baseline and maximise sensitivity to small impedance changes caused by subsurface or surface defects.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <div class="step-title">FEMM Simulation</div>
+            <div class="step-desc">Used <strong>FEMM</strong> to simulate magnetic field density distribution and predict how induced eddy currents would interact with a theoretical surface crack — validating coil geometry before fabrication.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <div class="step-title">Physical Testing & Calibration</div>
+            <div class="step-desc">Created calibration blocks with artificial defects (slits of varying depth) to verify probe sensitivity. Mapped the impedance plane to characterise defect vs. liftoff signal separation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/thumb_ect_graph.png" alt="FEMM contour plot showing eddy current penetration depth">
+    <div class="img-caption">Fig. 2 — FEMM contour plot showing eddy current penetration depth and magnetic flux distribution</div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Results</div>
+      <div class="results-list">
+        <div class="result-item">
+          <span class="result-label">Defect detected</span>
+          <div class="result-desc"><strong>Surface flaws successfully identified</strong> on an aluminium test block. The probe reliably detected artificial slit defects across the calibrated frequency range.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Liftoff mapped</span>
+          <div class="result-desc"><strong>Impedance plane curve characterised</strong> — demonstrating clear phase separation between liftoff signals and genuine defect signals, a key challenge in ECT practice.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Edge effect</span>
+          <div class="result-desc"><strong>Signal distortion near workpiece edges characterised</strong> — establishing a measurable dead zone limit and informing practical probe positioning guidelines.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Downloads</div>
+      <div class="reveal">
+        <a href="project_pdfs/Eddy_Current_Testing_Probe_Design.pdf" class="download-link" target="_blank">
+          ↓ &nbsp; Full Project Report (PDF)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT NAV -->
+<div class="w">
+  <div class="project-nav">
+    <a href="../heat-exchanger/" class="proj-nav-link">
+      <span class="proj-nav-label">← Previous</span>
+      <span class="proj-nav-title">Heat Exchanger CFD</span>
+    </a>
+    <a href="../acoustics/" class="proj-nav-link next">
+      <span class="proj-nav-label">Next →</span>
+      <span class="proj-nav-title">Acoustic Bubble Detection</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Muhammad Huzaifa Khan Ghory</span>
+  <span class="footer-copy">© 2025 · Ankara, Türkiye</span>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .step, .result-item, .img-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
