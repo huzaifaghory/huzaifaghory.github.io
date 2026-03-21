@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Huzaifa Khan Ghory — Mechanical Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a18;
+    --muted: #8a8a85;
+    --faint: #e8e6e1;
+    --accent: #1a1a18;
+    --warm: #c8622a;
+    --line: rgba(26,26,24,0.1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Cursor */
+  #cur {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--ink);
+    transform: translate(-50%,-50%);
+    transition: transform 0.12s, width 0.25s, height 0.25s, background 0.25s;
+    mix-blend-mode: multiply;
+  }
+  body:has(a:hover) #cur, body:has(button:hover) #cur {
+    width: 40px; height: 40px; background: rgba(26,26,24,0.08);
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5rem;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.05rem; letter-spacing: 0.01em;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; letter-spacing: 0.05em;
+    color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cv {
+    font-size: 0.78rem; letter-spacing: 0.05em;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid var(--ink);
+    color: var(--ink); text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cv:hover { background: var(--ink); color: var(--bg); }
+
+  /* Hero */
+  #hero {
+    padding: 8rem 5rem 5rem;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .hero-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 1.5rem;
+    opacity: 0; animation: up 0.7s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 7.5vw, 7.5rem);
+    line-height: 0.95; letter-spacing: -0.02em;
+    font-weight: 400;
+    opacity: 0; animation: up 0.7s 0.4s forwards;
+  }
+  .hero-name em {
+    font-style: italic; color: var(--muted);
+  }
+  .hero-bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-top: 2.5rem;
+    opacity: 0; animation: up 0.7s 0.7s forwards;
+    padding-bottom: 3rem;
+  }
+  .hero-desc {
+    max-width: 380px; color: var(--muted); font-size: 0.9rem; line-height: 1.7;
+  }
+  .hero-desc strong { color: var(--ink); font-weight: 500; }
+  .hero-scroll {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  }
+  .scroll-arrow {
+    width: 32px; height: 32px; border: 1px solid var(--line);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    animation: bounce 2s infinite;
+  }
+
+  .hero-rule {
+    position: absolute; bottom: 0; left: 5rem; right: 5rem;
+    height: 1px; background: var(--line);
+  }
+
+  /* Wide layout wrapper */
+  .w { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+  /* Section */
+  section { padding: 7rem 0; border-bottom: 1px solid var(--line); }
+  .section-row {
+    display: grid; grid-template-columns: 200px 1fr; gap: 4rem;
+  }
+  .section-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    padding-top: 0.35rem;
+  }
+
+  /* About */
+  .about-text {
+    font-size: 1.05rem; line-height: 1.85; color: #3a3a36;
+  }
+  .about-text p + p { margin-top: 1.4rem; }
+  .about-text strong { color: var(--ink); font-weight: 500; }
+
+  /* Skills */
+  .skills-cols {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem;
+  }
+  .skill-group-title {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    margin-bottom: 1.2rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .skill-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .skill-item {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.85rem; color: var(--ink);
+  }
+  .skill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--warm); flex-shrink: 0; }
+
+  /* Projects */
+  .projects-list { display: flex; flex-direction: column; }
+  .project-row {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    align-items: baseline; gap: 2rem;
+    padding: 2rem 0; border-bottom: 1px solid var(--line);
+    text-decoration: none; color: inherit;
+    transition: all 0.2s; position: relative;
+    cursor: none;
+  }
+  .project-row:first-child { border-top: 1px solid var(--line); }
+  .project-row::after {
+    content: ''; position: absolute; left: 0; bottom: -1px; right: 0;
+    height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
+  }
+  .project-row:hover::after { transform: scaleX(1); }
+  .project-row:hover .project-num { color: var(--ink); }
+  .project-row:hover .proj-arrow { transform: translate(4px, -4px); }
+  .project-num {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); letter-spacing: 0.1em; padding-top: 0.2rem;
+    transition: color 0.2s;
+  }
+  .project-info { display: flex; flex-direction: column; gap: 0.5rem; }
+  .project-title {
+    font-family: 'Instrument Serif', serif; font-size: 1.5rem;
+    font-weight: 400; line-height: 1.1; letter-spacing: -0.01em;
+  }
+  .project-desc { font-size: 0.83rem; color: var(--muted); max-width: 480px; }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.25rem; }
+  .ptag {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border: 1px solid var(--faint); color: var(--muted);
+  }
+  .proj-arrow {
+    font-size: 1.1rem; color: var(--muted); transition: transform 0.25s;
+    align-self: center;
+  }
+
+  /* Experience */
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 180px 1fr;
+    gap: 2rem; padding: 2.5rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .exp-item:first-child { border-top: 1px solid var(--line); }
+  .exp-item.visible { opacity: 1; transform: translateY(0); }
+  .exp-date {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    padding-top: 0.3rem;
+  }
+  .exp-role {
+    font-family: 'Instrument Serif', serif; font-size: 1.25rem;
+    font-weight: 400; margin-bottom: 0.3rem;
+  }
+  .exp-company {
+    font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.07em;
+  }
+  .exp-desc { font-size: 0.85rem; color: #5a5a55; line-height: 1.75; max-width: 520px; }
+  .exp-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem; }
+  .exp-chip {
+    font-size: 0.72rem; padding: 0.2rem 0.6rem;
+    background: var(--faint); color: var(--muted); border-radius: 2px;
+  }
+
+  /* Education */
+  .edu-block {
+    background: var(--ink); color: var(--bg);
+    padding: 3rem 3.5rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .edu-block.visible { opacity: 1; transform: translateY(0); }
+  .edu-uni {
+    font-family: 'Instrument Serif', serif; font-size: 2rem;
+    font-weight: 400; line-height: 1.1; margin-bottom: 0.75rem;
+  }
+  .edu-deg {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: rgba(250,249,247,0.5);
+    margin-bottom: 1rem;
+  }
+  .edu-info { font-size: 0.85rem; color: rgba(250,249,247,0.6); line-height: 1.7; }
+  .edu-focus { display: flex; flex-direction: column; gap: 0.75rem; }
+  .edu-focus-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.85rem; color: rgba(250,249,247,0.7);
+    padding-bottom: 0.75rem; border-bottom: 1px solid rgba(250,249,247,0.08);
+  }
+  .edu-focus-item:last-child { border-bottom: none; }
+  .edu-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--warm); flex-shrink: 0; }
+
+  /* Contact */
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+  .contact-heading {
+    font-family: 'Instrument Serif', serif; font-size: 3rem;
+    line-height: 1; letter-spacing: -0.02em; margin-bottom: 1.5rem;
+  }
+  .contact-heading em { font-style: italic; color: var(--muted); }
+  .contact-sub { font-size: 0.875rem; color: var(--muted); line-height: 1.7; margin-bottom: 2.5rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 0; }
+  .contact-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 0; border-bottom: 1px solid var(--line);
+    text-decoration: none; color: var(--ink);
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .contact-item:first-child { border-top: 1px solid var(--line); }
+  .contact-item:hover .ci-label { color: var(--ink); }
+  .contact-item:hover .ci-arrow { transform: translate(4px,-4px); }
+  .ci-left { display: flex; flex-direction: column; gap: 0.2rem; }
+  .ci-type {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+  .ci-label { font-size: 0.9rem; transition: color 0.2s; }
+  .ci-arrow { font-size: 0.9rem; color: var(--muted); transition: transform 0.25s; }
+
+  .form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .field { display: flex; flex-direction: column; gap: 0.5rem; }
+  .field label {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+  .field input, .field textarea {
+    background: transparent; border: none; border-bottom: 1px solid var(--line);
+    color: var(--ink); font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 0.9rem; padding: 0.75rem 0; outline: none; width: 100%;
+    transition: border-color 0.2s;
+  }
+  .field input:focus, .field textarea:focus { border-bottom-color: var(--ink); }
+  .field textarea { resize: none; min-height: 100px; }
+  .form-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--ink); color: var(--bg);
+    border: none; cursor: none;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.85rem 1.8rem;
+    transition: opacity 0.2s; align-self: flex-start;
+  }
+  .form-btn:hover { opacity: 0.8; }
+
+  /* Footer */
+  footer {
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-name {
+    font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--muted);
+  }
+  .footer-copy {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.08em; color: var(--muted);
+  }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Animations */
+  @keyframes up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 2rem; }
+    #hero { padding: 2rem; }
+    .w { padding: 0 2rem; }
+    footer { padding: 2rem; }
+    .section-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .skills-cols { grid-template-columns: 1fr; }
+    .project-row { grid-template-columns: 40px 1fr auto; gap: 1rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu-block { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Huzaifa Ghory</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="https://huzaifaghory.github.io/CV_2026.pdf" class="nav-cv" target="_blank">CV ↓</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-label">Mechanical Engineer · CFD & FEA Specialist · METU</div>
+  <h1 class="hero-name">
+    Muhammad<br>
+    <em>Huzaifa</em><br>
+    Khan Ghory
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Specialising in <strong>Computational Fluid Dynamics</strong>, <strong>Acoustics</strong>, and <strong>Non-Destructive Testing</strong> — bridging theoretical analysis with practical simulation.
+    </p>
+    <div class="hero-scroll">
+      <div class="scroll-arrow">↓</div>
+      Scroll to explore
+    </div>
+  </div>
+  <div class="hero-rule"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">About</div>
+      <div>
+        <div class="about-text reveal">
+          <p>I'm a <strong>Mechanical Engineering student at Middle East Technical University</strong> in Ankara, Turkey — one of the country's leading technical institutions.</p>
+          <p>My focus lies at the intersection of numerical simulation and physical engineering: running <strong>CFD analyses</strong> on fluid systems, building <strong>FEA models</strong> for structural problems, and developing <strong>NDT probes</strong> for flaw detection. I work with both open-source tools like OpenFOAM and ElmerFEM and industry-standard software like Ansys and SolidWorks.</p>
+          <p>I've applied this work in industry through internships at <strong>Beko Corporate</strong> (Quality Assurance) and <strong>Mim Engineering</strong> (structural steel production) — gaining hands-on experience in manufacturing processes and measurement systems.</p>
+        </div>
+
+        <div class="skills-cols" style="margin-top:3.5rem">
+          <div class="reveal" style="transition-delay:0.1s">
+            <div class="skill-group-title">Simulation</div>
+            <div class="skill-list">
+              <div class="skill-item"><span>MATLAB</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>Ansys</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>OpenFOAM</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>SimScale</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>ElmerFEM</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>ParaView</span><div class="skill-dot"></div></div>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.2s">
+            <div class="skill-group-title">Design</div>
+            <div class="skill-list">
+              <div class="skill-item"><span>SolidWorks</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>Fusion 360</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>Python</span><div class="skill-dot"></div></div>
+            </div>
+          </div>
+          <div class="reveal" style="transition-delay:0.3s">
+            <div class="skill-group-title">Domains</div>
+            <div class="skill-list">
+              <div class="skill-item"><span>CFD</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>FEA / FEM</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>Acoustics</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>NDT / ECT</span><div class="skill-dot"></div></div>
+              <div class="skill-item"><span>Quality Assurance</span><div class="skill-dot"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Projects</div>
+      <div class="projects-list reveal">
+
+        <a href="https://huzaifaghory.github.io/heat-exchanger" class="project-row" target="_blank">
+          <span class="project-num">01</span>
+          <div class="project-info">
+            <div class="project-title">Heat Exchanger CFD</div>
+            <div class="project-desc">Fluid domain optimisation of a shell-and-tube heat exchanger using SimScale cloud CFD and MATLAB post-processing. Parametric study of baffle spacing and inlet velocity.</div>
+            <div class="project-tags">
+              <span class="ptag">SimScale</span>
+              <span class="ptag">MATLAB</span>
+              <span class="ptag">CFD</span>
+            </div>
+          </div>
+          <span class="proj-arrow">↗</span>
+        </a>
+
+        <a href="https://huzaifaghory.github.io/ect-probe" class="project-row" target="_blank">
+          <span class="project-num">02</span>
+          <div class="project-info">
+            <div class="project-title">ECT Probe Design</div>
+            <div class="project-desc">Custom eddy-current coil probe for near-surface flaw detection in conductive materials. Coil geometry optimised via ElmerFEM electromagnetic simulation.</div>
+            <div class="project-tags">
+              <span class="ptag">ElmerFEM</span>
+              <span class="ptag">NDT</span>
+              <span class="ptag">EM Sim</span>
+            </div>
+          </div>
+          <span class="proj-arrow">↗</span>
+        </a>
+
+        <a href="https://huzaifaghory.github.io/acoustics" class="project-row" target="_blank">
+          <span class="project-num">03</span>
+          <div class="project-info">
+            <div class="project-title">Acoustic Bubble Detection</div>
+            <div class="project-desc">Numerical modelling of ultrasonic transducers to detect and characterise bubbles in fluid channels. Coupled acoustic-structural FEM simulation.</div>
+            <div class="project-tags">
+              <span class="ptag">Acoustics</span>
+              <span class="ptag">FEM</span>
+              <span class="ptag">Python</span>
+            </div>
+          </div>
+          <span class="proj-arrow">↗</span>
+        </a>
+
+        <a href="https://huzaifaghory.github.io/structure-design" class="project-row" target="_blank">
+          <span class="project-num">04</span>
+          <div class="project-info">
+            <div class="project-title">Load Bearing Structure</div>
+            <div class="project-desc">End-to-end design, fabrication and physical load testing of a minimal-material structure. Iterative FEA-driven geometry refinement throughout.</div>
+            <div class="project-tags">
+              <span class="ptag">FEA</span>
+              <span class="ptag">Ansys</span>
+              <span class="ptag">Fabrication</span>
+            </div>
+          </div>
+          <span class="proj-arrow">↗</span>
+        </a>
+
+        <a href="https://huzaifaghory.github.io/gearbox" class="project-row" target="_blank">
+          <span class="project-num">05</span>
+          <div class="project-info">
+            <div class="project-title">Gearbox Design</div>
+            <div class="project-desc">ISO-standard helical gearbox with full MATLAB gear analysis — contact stress, bending fatigue, and shaft deflection calculations.</div>
+            <div class="project-tags">
+              <span class="ptag">MATLAB</span>
+              <span class="ptag">ISO Standard</span>
+              <span class="ptag">SolidWorks</span>
+            </div>
+          </div>
+          <span class="proj-arrow">↗</span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Experience</div>
+      <div class="exp-list">
+
+        <div class="exp-item">
+          <div class="exp-date">Jul 2025</div>
+          <div>
+            <div class="exp-role">Production Intern</div>
+            <div class="exp-company">Mim Engineering Construction Steel Ind. — Ankara, Türkiye</div>
+            <div class="exp-desc">Tracked daily production workflow of heavy structural steel components for industrial facilities and bridges. Compiled manufacturing metrics and cross-checked dimensional tolerances of finished profiles prior to dispatch.</div>
+            <div class="exp-chips">
+              <span class="exp-chip">Steel Fabrication</span>
+              <span class="exp-chip">Quality Control</span>
+              <span class="exp-chip">Dimensional Tolerance</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-date">Summer 2024</div>
+          <div>
+            <div class="exp-role">Quality Assurance Management</div>
+            <div class="exp-company">Beko Corporate</div>
+            <div class="exp-desc">Performed Measurement System Analysis using Gage R&R methodology with Minitab software. Evaluated measurement variability and ensured process reliability across production lines.</div>
+            <div class="exp-chips">
+              <span class="exp-chip">Gage R&R</span>
+              <span class="exp-chip">Minitab</span>
+              <span class="exp-chip">MSA</span>
+              <span class="exp-chip">QA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="border-bottom:none">
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Education</div>
+      <div>
+        <div class="edu-block reveal">
+          <div>
+            <div class="edu-deg">BSc Mechanical Engineering</div>
+            <div class="edu-uni">Middle East Technical University</div>
+            <div class="edu-info">One of Turkey's most prestigious engineering institutions. Coursework spanning thermodynamics, fluid mechanics, structural analysis, materials science, and advanced simulation methods.</div>
+          </div>
+          <div class="edu-focus">
+            <div class="edu-focus-item"><div class="edu-dot"></div>Computational Fluid Dynamics</div>
+            <div class="edu-focus-item"><div class="edu-dot"></div>OpenFOAM & SimScale</div>
+            <div class="edu-focus-item"><div class="edu-dot"></div>Acoustic Analysis</div>
+            <div class="edu-focus-item"><div class="edu-dot"></div>Finite Element Methods</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="border-bottom:none; padding-top:7rem">
+  <div class="w">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="contact-heading">Get in<br><em>touch</em></div>
+        <div class="contact-sub">Open to internship opportunities, research collaborations, and engineering projects.</div>
+        <div class="contact-items">
+          <a href="mailto:huzaifa.ghory@gmail.com" class="contact-item">
+            <div class="ci-left">
+              <span class="ci-type">Email</span>
+              <span class="ci-label">huzaifa.ghory@gmail.com</span>
+            </div>
+            <span class="ci-arrow">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/muhammad-huzaifa-khan-ghory/" class="contact-item" target="_blank">
+            <div class="ci-left">
+              <span class="ci-type">LinkedIn</span>
+              <span class="ci-label">muhammad-huzaifa-khan-ghory</span>
+            </div>
+            <span class="ci-arrow">↗</span>
+          </a>
+          <a href="https://github.com/huzaifaghory" class="contact-item" target="_blank">
+            <div class="ci-left">
+              <span class="ci-type">GitHub</span>
+              <span class="ci-label">github.com/huzaifaghory</span>
+            </div>
+            <span class="ci-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="form reveal" style="transition-delay:0.15s" onsubmit="handleSend(event)">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" placeholder="your@email.com">
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea placeholder="What would you like to discuss?"></textarea>
+        </div>
+        <button type="submit" class="form-btn">Send message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-name">Muhammad Huzaifa Khan Ghory</span>
+  <span class="footer-copy">© 2025 · Ankara, Türkiye</span>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+
+  // Nav
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .exp-item, .edu-block').forEach(el => observer.observe(el));
+
+  // Form
+  function handleSend(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-btn');
+    btn.textContent = 'Sent ✓';
+    btn.style.opacity = '0.5';
+    setTimeout(() => { btn.textContent = 'Send message →'; btn.style.opacity = ''; }, 3000);
+  }
+</script>
+</body>
+</html>
