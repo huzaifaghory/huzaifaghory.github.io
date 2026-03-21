@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acoustic Bubble Detection — Huzaifa Ghory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a18;
+    --muted: #8a8a85;
+    --faint: #e8e6e1;
+    --warm: #c8622a;
+    --line: rgba(26,26,24,0.1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  #cur {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--ink);
+    transform: translate(-50%,-50%);
+    transition: width 0.25s, height 0.25s;
+    mix-blend-mode: multiply;
+  }
+  body:has(a:hover) #cur { width: 40px; height: 40px; background: rgba(26,26,24,0.08); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-back {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-back-arrow { transition: transform 0.2s; display: inline-block; }
+  .nav-back:hover .nav-back-arrow { transform: translateX(-3px); }
+  .nav-title { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--ink); }
+  .nav-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+
+  .w { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+  #hero { padding: 8rem 5rem 5rem; border-bottom: 1px solid var(--line); }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;
+    opacity: 0; animation: up 0.6s 0.1s forwards;
+  }
+  .hero-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); }
+  .hero-tag {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border: 1px solid var(--faint); color: var(--muted);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1; letter-spacing: -0.02em; font-weight: 400;
+    max-width: 800px; margin-bottom: 2rem;
+    opacity: 0; animation: up 0.6s 0.25s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--muted); }
+  .hero-bottom {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 4rem; align-items: end;
+    opacity: 0; animation: up 0.6s 0.4s forwards;
+  }
+  .hero-summary { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
+  .hero-summary strong { color: var(--ink); font-weight: 500; }
+  .hero-stats { display: flex; flex-direction: column; gap: 1rem; text-align: right; }
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-val { font-family: 'Instrument Serif', serif; font-size: 1.8rem; line-height: 1; color: var(--warm); }
+  .stat-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 5rem 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-row { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; }
+  .section-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    padding-top: 0.3rem;
+  }
+
+  .prose { font-size: 0.95rem; color: #3a3a36; line-height: 1.85; }
+  .prose p + p { margin-top: 1.2rem; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .spec-item {
+    padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .spec-item:nth-child(odd) { padding-right: 2rem; border-right: 1px solid var(--line); }
+  .spec-item:nth-child(even) { padding-left: 2rem; }
+  .spec-key { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .spec-val { font-size: 0.9rem; color: var(--ink); font-weight: 400; }
+
+  .steps { display: flex; flex-direction: column; }
+  .step {
+    display: grid; grid-template-columns: 48px 1fr;
+    gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .step:first-child { border-top: 1px solid var(--line); }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step-num { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--faint); line-height: 1; padding-top: 0.1rem; }
+  .step-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+
+  .results-list { display: flex; flex-direction: column; }
+  .result-item {
+    display: flex; align-items: baseline; gap: 2rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .result-item:first-child { border-top: 1px solid var(--line); }
+  .result-item.visible { opacity: 1; transform: translateY(0); }
+  .result-label {
+    font-family: 'Instrument Serif', serif; font-size: 1.4rem;
+    color: var(--warm); line-height: 1.1; white-space: nowrap; min-width: 140px;
+  }
+  .result-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .result-desc strong { color: var(--ink); font-weight: 500; }
+
+  .img-block {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .img-block.visible { opacity: 1; transform: translateY(0); }
+  .img-block img { width: 100%; display: block; border: 1px solid var(--faint); }
+  .img-caption { margin-top: 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  /* Two-up image layout */
+  .img-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+  .download-link {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--ink); color: var(--bg);
+    text-decoration: none; padding: 0.9rem 1.8rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    transition: opacity 0.2s; cursor: none;
+  }
+  .download-link:hover { opacity: 0.75; }
+
+  .project-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3rem 0;
+  }
+  .proj-nav-link {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    text-decoration: none; color: var(--ink);
+    transition: opacity 0.2s; cursor: none;
+  }
+  .proj-nav-link:hover { opacity: 0.6; }
+  .proj-nav-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .proj-nav-title { font-family: 'Instrument Serif', serif; font-size: 1.1rem; }
+  .proj-nav-link.next { text-align: right; }
+
+  footer {
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--muted); }
+  .footer-copy { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav, #hero, footer { padding-left: 2rem; padding-right: 2rem; }
+    .w { padding: 0 2rem; }
+    .section-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { text-align: left; flex-direction: row; gap: 2rem; }
+    .specs-grid { grid-template-columns: 1fr; }
+    .spec-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .spec-item:nth-child(even) { padding-left: 0; }
+    .img-pair { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav id="nav">
+  <a href="../" class="nav-back"><span class="nav-back-arrow">←</span> Portfolio</a>
+  <span class="nav-title">Acoustic Bubble Detection</span>
+  <span class="nav-num">03 / 05</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-meta">
+    <span class="hero-num">Project 03</span>
+    <span class="hero-tag">Acoustics</span>
+    <span class="hero-tag">ANSYS</span>
+    <span class="hero-tag">MATLAB</span>
+  </div>
+  <h1 class="hero-title">Acoustic Bubble Detection<br>in <em>Fluid Domains</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-summary">
+      A numerical model for detecting micro-bubbles in fluid media using <strong>ultrasonic piezoelectric transducers</strong> — correlating bubble scattering cross-section with resonance frequency to identify optimal detection bands.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-val">10–100</span>
+        <span class="stat-label">µm bubble range</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">FSI</span>
+        <span class="stat-label">Fluid-structure interaction</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">Minnaert</span>
+        <span class="stat-label">Resonance validated</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/thumb_acoustic.png" alt="Harmonic response analysis showing pressure wave propagation through the fluid domain">
+    <div class="img-caption">Fig. 1 — Harmonic response analysis showing pressure wave propagation through the fluid domain</div>
+  </div>
+</div>
+
+<!-- OBJECTIVE -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Objective</div>
+      <div class="prose reveal">
+        <p>To develop a <strong>numerical model for detecting micro-bubbles</strong> in a fluid medium using ultrasonic piezoelectric transducers — correlating the scattering cross-section of bubbles with specific observation frequencies.</p>
+        <p>Detecting small bubbles in hydraulic or medical systems is critical but difficult due to noise and signal attenuation. The core challenge was accurately modelling the <strong>fluid-solid interaction</strong> between the piezoelectric sensor and the water domain, to predict how bubbles of varying sizes scatter acoustic waves.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL DETAILS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Technical Details</div>
+      <div class="specs-grid reveal">
+        <div class="spec-item">
+          <span class="spec-key">Simulation Platform</span>
+          <span class="spec-val">ANSYS — Coupled Field Harmonic Response</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Signal Processing</span>
+          <span class="spec-val">MATLAB Signal Processing Toolbox</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Physics</span>
+          <span class="spec-val">Fluid-Structure Interaction (FSI)</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Sensor Material</span>
+          <span class="spec-val">PZT — Lead Zirconate Titanate</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Domain Geometry</span>
+          <span class="spec-val">2D axisymmetric</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Bubble Size Range</span>
+          <span class="spec-val">10 µm – 100 µm radius</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Key Variable</span>
+          <span class="spec-val">Bubble resonance vs. transducer frequency</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Output Metric</span>
+          <span class="spec-val">Target strength & scattering cross-section</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Methodology</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <div class="step-title">Transducer Modelling</div>
+            <div class="step-desc">Modelled the <strong>PZT sensor</strong> in ANSYS, defining piezoelectric material properties to accurately simulate the conversion of electrical voltage into mechanical vibration and radiated acoustic pressure.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <div class="step-title">Harmonic Frequency Sweep</div>
+            <div class="step-desc">Conducted a frequency sweep across the operating range to identify the <strong>resonance frequencies of bubbles</strong> from 10 µm to 100 µm radius — mapping the Minnaert resonance relationship between bubble size and peak scattering frequency.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <div class="step-title">Coupled Field Simulation</div>
+            <div class="step-desc">Set up a <strong>2D axisymmetric domain</strong> in ANSYS to simulate ultrasonic wave propagation and reflection off the bubble surface. The coupled field formulation captured piezoelectric, structural, and acoustic physics simultaneously.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <div class="step-title">Signal Processing in MATLAB</div>
+            <div class="step-desc">Exported acoustic pressure data to MATLAB to calculate <strong>target strength</strong> and scattering cross-section across the frequency range — producing characteristic curves for each bubble size.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGES -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/thumb_acoustic_graph.png" alt="MATLAB plot of scattering cross-section vs frequency for different bubble sizes">
+    <div class="img-caption">Fig. 2 — MATLAB plot of scattering cross-section vs. frequency for bubble radii of 10–100 µm</div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Results</div>
+      <div class="results-list">
+        <div class="result-item">
+          <span class="result-label">Minnaert validated</span>
+          <div class="result-desc"><strong>Clear correlation established</strong> between bubble radius and peak scattering frequency — confirming the Minnaert resonance model and validating the numerical approach against theoretical predictions.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Frequency bands</span>
+          <div class="result-desc"><strong>kHz range effective for larger bubbles; MHz required for micro-bubbles</strong> — providing a practical frequency selection guide for acoustic detection systems in hydraulic and medical applications.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Cavitation detection</span>
+          <div class="result-desc"><strong>Optimised frequency band proposed</strong> for early detection of cavitation bubbles in hydraulic pumps — enabling preventive monitoring before physical damage occurs.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Downloads</div>
+      <div class="reveal">
+        <a href="project_pdfs/Bubble_Detection_in_Fluid_Domain_Using_Ultrasonic_Acoustic_Waves.pdf" class="download-link" target="_blank">
+          ↓ &nbsp; Full Project Report (PDF)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT NAV -->
+<div class="w">
+  <div class="project-nav">
+    <a href="../ect-probe/" class="proj-nav-link">
+      <span class="proj-nav-label">← Previous</span>
+      <span class="proj-nav-title">ECT Probe Design</span>
+    </a>
+    <a href="../structure-design/" class="proj-nav-link next">
+      <span class="proj-nav-label">Next →</span>
+      <span class="proj-nav-title">Load Bearing Structure</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Muhammad Huzaifa Khan Ghory</span>
+  <span class="footer-copy">© 2025 · Ankara, Türkiye</span>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .step, .result-item, .img-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
