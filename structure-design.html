@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Load Bearing Structure — Huzaifa Ghory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7;
+    --ink: #1a1a18;
+    --muted: #8a8a85;
+    --faint: #e8e6e1;
+    --warm: #c8622a;
+    --line: rgba(26,26,24,0.1);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  #cur {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 10px; height: 10px;
+    border-radius: 50%; background: var(--ink);
+    transform: translate(-50%,-50%);
+    transition: width 0.25s, height 0.25s;
+    mix-blend-mode: multiply;
+  }
+  body:has(a:hover) #cur { width: 40px; height: 40px; background: rgba(26,26,24,0.08); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-back {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-back-arrow { transition: transform 0.2s; display: inline-block; }
+  .nav-back:hover .nav-back-arrow { transform: translateX(-3px); }
+  .nav-title { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--ink); }
+  .nav-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+
+  .w { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+  #hero { padding: 8rem 5rem 5rem; border-bottom: 1px solid var(--line); }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;
+    opacity: 0; animation: up 0.6s 0.1s forwards;
+  }
+  .hero-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); }
+  .hero-tag {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border: 1px solid var(--faint); color: var(--muted);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1; letter-spacing: -0.02em; font-weight: 400;
+    max-width: 800px; margin-bottom: 2rem;
+    opacity: 0; animation: up 0.6s 0.25s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--muted); }
+  .hero-bottom {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 4rem; align-items: end;
+    opacity: 0; animation: up 0.6s 0.4s forwards;
+  }
+  .hero-summary { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
+  .hero-summary strong { color: var(--ink); font-weight: 500; }
+  .hero-stats { display: flex; flex-direction: column; gap: 1rem; text-align: right; }
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-val { font-family: 'Instrument Serif', serif; font-size: 1.8rem; line-height: 1; color: var(--warm); }
+  .stat-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 5rem 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-row { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; }
+  .section-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    padding-top: 0.3rem;
+  }
+
+  .prose { font-size: 0.95rem; color: #3a3a36; line-height: 1.85; }
+  .prose p + p { margin-top: 1.2rem; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .spec-item {
+    padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .spec-item:nth-child(odd) { padding-right: 2rem; border-right: 1px solid var(--line); }
+  .spec-item:nth-child(even) { padding-left: 2rem; }
+  .spec-key { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .spec-val { font-size: 0.9rem; color: var(--ink); font-weight: 400; }
+
+  .steps { display: flex; flex-direction: column; }
+  .step {
+    display: grid; grid-template-columns: 48px 1fr;
+    gap: 1.5rem; padding: 1.8rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .step:first-child { border-top: 1px solid var(--line); }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step-num { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--faint); line-height: 1; padding-top: 0.1rem; }
+  .step-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+
+  .results-list { display: flex; flex-direction: column; }
+  .result-item {
+    display: flex; align-items: baseline; gap: 2rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .result-item:first-child { border-top: 1px solid var(--line); }
+  .result-item.visible { opacity: 1; transform: translateY(0); }
+  .result-val {
+    font-family: 'Instrument Serif', serif; font-size: 2rem;
+    color: var(--warm); line-height: 1; white-space: nowrap; min-width: 100px;
+  }
+  .result-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .result-desc strong { color: var(--ink); font-weight: 500; }
+
+  .img-block {
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 0.6s, transform 0.6s;
+  }
+  .img-block.visible { opacity: 1; transform: translateY(0); }
+  .img-block img { width: 100%; display: block; border: 1px solid var(--faint); }
+  .img-caption { margin-top: 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .download-link {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--ink); color: var(--bg);
+    text-decoration: none; padding: 0.9rem 1.8rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    transition: opacity 0.2s; cursor: none;
+  }
+  .download-link:hover { opacity: 0.75; }
+
+  .project-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 3rem 0;
+  }
+  .proj-nav-link {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    text-decoration: none; color: var(--ink);
+    transition: opacity 0.2s; cursor: none;
+  }
+  .proj-nav-link:hover { opacity: 0.6; }
+  .proj-nav-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .proj-nav-title { font-family: 'Instrument Serif', serif; font-size: 1.1rem; }
+  .proj-nav-link.next { text-align: right; }
+
+  footer {
+    padding: 2rem 5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--muted); }
+  .footer-copy { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 900px) {
+    nav, #hero, footer { padding-left: 2rem; padding-right: 2rem; }
+    .w { padding: 0 2rem; }
+    .section-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { text-align: left; flex-direction: row; gap: 2rem; }
+    .specs-grid { grid-template-columns: 1fr; }
+    .spec-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .spec-item:nth-child(even) { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav id="nav">
+  <a href="../" class="nav-back"><span class="nav-back-arrow">←</span> Portfolio</a>
+  <span class="nav-title">Load Bearing Structure</span>
+  <span class="nav-num">04 / 05</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-meta">
+    <span class="hero-num">Project 04</span>
+    <span class="hero-tag">FEA</span>
+    <span class="hero-tag">SolidWorks</span>
+    <span class="hero-tag">Fabrication</span>
+  </div>
+  <h1 class="hero-title">Design & Manufacturing of a<br><em>Load Bearing Structure</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-summary">
+      End-to-end design, fabrication and physical load testing of a minimal-material aluminium truss structure — using <strong>topology optimisation and FEA</strong> to eliminate dead weight while maintaining structural integrity under dynamic load.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-val">200%</span>
+        <span class="stat-label">Of design load held</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">−15%</span>
+        <span class="stat-label">Weight vs. baseline</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">−25%</span>
+        <span class="stat-label">Mass via cutouts</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/thumb_load.png" alt="The final fabricated structure undergoing stress testing">
+    <div class="img-caption">Fig. 1 — The final fabricated structure undergoing physical stress testing</div>
+  </div>
+</div>
+
+<!-- OBJECTIVE -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Objective</div>
+      <div class="prose reveal">
+        <p>To design and fabricate a load-bearing structure capable of supporting a specific weight while <strong>minimising the structure's own mass</strong> — adhering to strict material constraints and geometric limitations.</p>
+        <p>The primary constraint was the <strong>strength-to-weight ratio</strong>. With a limited material budget, the structure had to resist dynamic loads without buckling. The key insight was identifying zero-force members in the truss and eliminating them — saving weight without compromising integrity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECHNICAL DETAILS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Technical Details</div>
+      <div class="specs-grid reveal">
+        <div class="spec-item">
+          <span class="spec-key">CAD Software</span>
+          <span class="spec-val">SolidWorks, Siemens NX 11</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">FEA Tool</span>
+          <span class="spec-val">SolidWorks Simulation</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Material</span>
+          <span class="spec-val">Aluminium Sheet — Al 6061</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Optimisation Method</span>
+          <span class="spec-val">Topology optimisation for weight reduction</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Fabrication</span>
+          <span class="spec-val">Laser cutting, bending, manual assembly</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">File Output</span>
+          <span class="spec-val">DXF files for laser cutter</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Truss Configurations</span>
+          <span class="spec-val">Warren vs. Pratt — comparative analysis</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-key">Failure Mode</span>
+          <span class="spec-val">Buckling (predicted and confirmed by FEA)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Methodology</div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <div>
+            <div class="step-title">Conceptual Design</div>
+            <div class="step-desc">Sketched and evaluated multiple truss configurations — <strong>Warren vs. Pratt truss</strong> geometries — analysing member force distributions analytically before committing to a geometry for simulation.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <div>
+            <div class="step-title">FEA Stress Analysis</div>
+            <div class="step-desc">Used <strong>SolidWorks Simulation</strong> to identify high-stress concentration areas and potential buckling points under the design load. Stress contours guided material redistribution decisions.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <div>
+            <div class="step-title">Topology Optimisation & Refinement</div>
+            <div class="step-desc">Removed material from low-stress regions by introducing <strong>strategic cutouts</strong>, reducing total mass by 25% while keeping peak stresses below the yield threshold. Zero-force members were eliminated entirely.</div>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <div>
+            <div class="step-title">Fabrication & Assembly</div>
+            <div class="step-desc">Generated <strong>DXF files</strong> for laser cutting from Al 6061 sheet stock. Parts were bent to geometry and assembled using an interlocking joint system, avoiding welding for repeatability and precision.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Results</div>
+      <div class="results-list">
+        <div class="result-item">
+          <span class="result-val">200%</span>
+          <div class="result-desc"><strong>Load capacity exceeded</strong> — the structure successfully held twice the design load before failure, demonstrating a substantial safety margin above specification.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-val">−15%</span>
+          <div class="result-desc"><strong>Final weight below baseline</strong> — the optimised design was 15% lighter than the initial configuration, achieved entirely through FEA-guided material removal.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-val">FEA confirmed</span>
+          <div class="result-desc"><strong>Predicted buckling mode matched physical failure exactly</strong> — validating the simulation model and confirming the accuracy of the boundary conditions and material parameters used.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Downloads</div>
+      <div class="reveal">
+        <a href="project_pdfs/Design_and_Manufacturing_of_a_Load_Bearing_Structure.pdf" class="download-link" target="_blank">
+          ↓ &nbsp; Full Project Report (PDF)
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT NAV -->
+<div class="w">
+  <div class="project-nav">
+    <a href="../acoustics/" class="proj-nav-link">
+      <span class="proj-nav-label">← Previous</span>
+      <span class="proj-nav-title">Acoustic Bubble Detection</span>
+    </a>
+    <a href="../gearbox/" class="proj-nav-link next">
+      <span class="proj-nav-label">Next →</span>
+      <span class="proj-nav-title">Gearbox Design</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Muhammad Huzaifa Khan Ghory</span>
+  <span class="footer-copy">© 2025 · Ankara, Türkiye</span>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .step, .result-item, .img-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
