@@ -36,8 +36,8 @@
     position: fixed; z-index: 9999; pointer-events: none;
     width: 10px; height: 10px;
     border-radius: 50%; background: var(--ink);
-    transform: translate(-50%,-50%);
-    transition: transform 0.12s, width 0.25s, height 0.25s, background 0.25s;
+    trans: translate(-50%,-50%);
+    transition: trans 0.12s, width 0.25s, height 0.25s, background 0.25s;
     mix-blend-mode: multiply;
   }
   body:has(a:hover) #cur, body:has(button:hover) #cur {
@@ -621,7 +621,7 @@
         </div>
       </div>
 
-      <form class="form reveal" style="transition-delay:0.15s" onsubmit="handleSend(event)">
+      <form class="form reveal" style="transition-delay:0.15s" action="https://formspree.io/f/xqegkqbk" method="POST">
         <div class="field">
           <label>Name</label>
           <input type="text" placeholder="Your name">
@@ -664,14 +664,6 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal, .exp-item, .edu-block').forEach(el => observer.observe(el));
 
-  // Form
-  function handleSend(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.form-btn');
-    btn.textContent = 'Sent ✓';
-    btn.style.opacity = '0.5';
-    setTimeout(() => { btn.textContent = 'Send message →'; btn.style.opacity = ''; }, 3000);
-  }
 </script>
 </body>
 </html>
