@@ -6,6 +6,15 @@
 <title>Muhammad Huzaifa Khan Ghory — Mechanical Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
 <style>
   :root {
     --bg: #faf9f7;
@@ -15,6 +24,25 @@
     --accent: #1a1a18;
     --warm: #c8622a;
     --line: rgba(26,26,24,0.1);
+    --text-soft: #3a3a36;
+    --text-soft2: #5a5a55;
+    --cursor-hover: rgba(26,26,24,0.08);
+    --edu-bg: #1a1a18;
+    --edu-border: transparent;
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f0e;
+    --ink: #ecebe7;
+    --muted: #8f8f89;
+    --faint: #242422;
+    --accent: #ecebe7;
+    --warm: #e0763a;
+    --line: rgba(236,235,231,0.12);
+    --text-soft: #c9c8c3;
+    --text-soft2: #a9a8a3;
+    --cursor-hover: rgba(236,235,231,0.12);
+    --edu-bg: #181816;
+    --edu-border: rgba(236,235,231,0.12);
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,12 +64,13 @@
     position: fixed; z-index: 9999; pointer-events: none;
     width: 10px; height: 10px;
     border-radius: 50%; background: var(--ink);
-    trans: translate(-50%,-50%);
-    transition: trans 0.12s, width 0.25s, height 0.25s, background 0.25s;
+    transform: translate(-50%,-50%);
+    transition: width 0.25s, height 0.25s, background 0.25s;
     mix-blend-mode: multiply;
   }
+  [data-theme="dark"] #cur { mix-blend-mode: normal; }
   body:has(a:hover) #cur, body:has(button:hover) #cur {
-    width: 40px; height: 40px; background: rgba(26,26,24,0.08);
+    width: 40px; height: 40px; background: var(--cursor-hover);
   }
 
   /* Nav */
@@ -141,7 +170,7 @@
 
   /* About */
   .about-text {
-    font-size: 1.05rem; line-height: 1.85; color: #3a3a36;
+    font-size: 1.05rem; line-height: 1.85; color: var(--text-soft);
   }
   .about-text p + p { margin-top: 1.4rem; }
   .about-text strong { color: var(--ink); font-weight: 500; }
@@ -229,7 +258,7 @@
     font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;
     font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.07em;
   }
-  .exp-desc { font-size: 0.85rem; color: #5a5a55; line-height: 1.75; max-width: 520px; }
+  .exp-desc { font-size: 0.85rem; color: var(--text-soft2); line-height: 1.75; max-width: 520px; }
   .exp-chips { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem; }
   .exp-chip {
     font-size: 0.72rem; padding: 0.2rem 0.6rem;
@@ -238,7 +267,7 @@
 
   /* Education */
   .edu-block {
-    background: var(--ink); color: var(--bg);
+    background: var(--edu-bg); color: #faf9f7; border: 1px solid var(--edu-border);
     padding: 3rem 3.5rem;
     display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
     opacity: 0; transform: translateY(16px);
@@ -332,6 +361,18 @@
     letter-spacing: 0.08em; color: var(--muted);
   }
 
+  /* Theme toggle */
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line); background: transparent;
+    color: var(--ink); font-size: 0.95rem; cursor: inherit;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--ink); }
+  body, nav, .edu-block { transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
   /* Reveal */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -386,7 +427,10 @@
     <li><a href="#experience">Experience</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://huzaifaghory.github.io/CV_2026.pdf" class="nav-cv" target="_blank">CV ↓</a>
+  <div class="nav-right">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"><span id="theme-icon">☾</span></button>
+    <a href="https://huzaifaghory.github.io/CV_2026.pdf" class="nav-cv" target="_blank">CV ↓</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -707,6 +751,19 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal, .exp-item, .edu-block').forEach(el => observer.observe(el));
 
+  // Theme toggle
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  function syncIcon() {
+    icon.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀' : '☾';
+  }
+  syncIcon();
+  toggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    syncIcon();
+  });
 </script>
 </body>
 </html>
