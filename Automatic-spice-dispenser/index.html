@@ -8,8 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #faf9f7; --ink: #1a1a18; --muted: #8a8a85;
-    --faint: #e8e6e1; --warm: #c8622a; --line: rgba(26,26,24,0.1);
+    --bg: #faf9f7;
+    --ink: #1a1a18;
+    --muted: #8a8a85;
+    --faint: #e8e6e1;
+    --warm: #c8622a;
+    --line: rgba(26,26,24,0.1);
+    --text-soft: #3a3a36;
+    --cursor-hover: rgba(26,26,24,0.08);
+  }
+  [data-theme="dark"] {
+    --bg: #0f0f0e;
+    --ink: #ecebe7;
+    --muted: #8f8f89;
+    --faint: #242422;
+    --warm: #e0763a;
+    --line: rgba(236,235,231,0.12);
+    --text-soft: #c9c8c3;
+    --cursor-hover: rgba(236,235,231,0.12);
   }
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -24,7 +40,8 @@
     transform: translate(-50%,-50%); transition: width 0.25s, height 0.25s;
     mix-blend-mode: multiply;
   }
-  body:has(a:hover) #cur { width: 40px; height: 40px; background: rgba(26,26,24,0.08); }
+    [data-theme="dark"] #cur { mix-blend-mode: normal; }
+  body:has(a:hover) #cur { width: 40px; height: 40px; background: var(--cursor-hover); }
 
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -88,7 +105,7 @@
   }
   .sub-label:first-child { margin-top: 0; }
 
-  .prose { font-size: 0.95rem; color: #3a3a36; line-height: 1.85; }
+  .prose { font-size: 0.95rem; color: var(--text-soft); line-height: 1.85; }
   .prose p + p { margin-top: 1.2rem; }
   .prose strong { color: var(--ink); font-weight: 500; }
 
@@ -205,6 +222,43 @@
     .result-val { min-width: 0; }
     .step { grid-template-columns: 36px 1fr; gap: 1rem; }
   }
+
+  /* Theme toggle */
+  .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--line); background: transparent;
+    color: var(--ink); font-size: 0.95rem; cursor: inherit;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--ink); }
+  body, nav { transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
+
+
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+    const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  function syncIcon() {
+    icon.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀' : '☾';
+  }
+  syncIcon();
+  toggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    syncIcon();
+  });
+</script>
+  
 </style>
 </head>
 <body>
