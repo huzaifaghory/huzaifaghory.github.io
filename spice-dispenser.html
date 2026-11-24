@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automated Spice Dispenser — Huzaifa Ghory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Geist+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f7; --ink: #1a1a18; --muted: #8a8a85;
+    --faint: #e8e6e1; --warm: #c8622a; --line: rgba(26,26,24,0.1);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: 'Inter', sans-serif; font-weight: 300;
+    font-size: 15px; line-height: 1.6; overflow-x: hidden; cursor: none;
+  }
+  #cur {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--ink);
+    transform: translate(-50%,-50%); transition: width 0.25s, height 0.25s;
+    mix-blend-mode: multiply;
+  }
+  body:has(a:hover) #cur { width: 40px; height: 40px; background: rgba(26,26,24,0.08); }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 0 5rem; height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg); border-bottom: 1px solid transparent; transition: border-color 0.4s;
+  }
+  nav.scrolled { border-bottom-color: var(--line); }
+  .nav-back {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-back:hover { color: var(--ink); }
+  .nav-back-arrow { transition: transform 0.2s; display: inline-block; }
+  .nav-back:hover .nav-back-arrow { transform: translateX(-3px); }
+  .nav-title { font-family: 'Instrument Serif', serif; font-size: 1rem; color: var(--ink); }
+  .nav-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+
+  .w { max-width: 1200px; margin: 0 auto; padding: 0 5rem; }
+
+  #hero { padding: 8rem 5rem 5rem; border-bottom: 1px solid var(--line); }
+  .hero-meta {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;
+    opacity: 0; animation: up 0.6s 0.1s forwards;
+  }
+  .hero-num { font-family: 'Geist Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--muted); margin-right: 0.5rem; }
+  .hero-tag {
+    font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid var(--faint); color: var(--muted);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1; letter-spacing: -0.02em; font-weight: 400;
+    max-width: 800px; margin-bottom: 2rem;
+    opacity: 0; animation: up 0.6s 0.25s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--muted); }
+  .hero-bottom {
+    display: grid; grid-template-columns: 1fr auto; gap: 4rem; align-items: end;
+    opacity: 0; animation: up 0.6s 0.4s forwards;
+  }
+  .hero-summary { font-size: 0.95rem; color: var(--muted); line-height: 1.8; max-width: 520px; }
+  .hero-summary strong { color: var(--ink); font-weight: 500; }
+  .hero-stats { display: flex; flex-direction: column; gap: 1rem; text-align: right; }
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-val { font-family: 'Instrument Serif', serif; font-size: 1.8rem; line-height: 1; color: var(--warm); }
+  .stat-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  section { padding: 5rem 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .section-row { display: grid; grid-template-columns: 200px 1fr; gap: 4rem; }
+  .section-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding-top: 0.3rem;
+  }
+  .sub-label {
+    font-family: 'Geist Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); margin: 2.5rem 0 1rem;
+  }
+  .sub-label:first-child { margin-top: 0; }
+
+  .prose { font-size: 0.95rem; color: #3a3a36; line-height: 1.85; }
+  .prose p + p { margin-top: 1.2rem; }
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .spec-item {
+    padding: 1.2rem 0; border-bottom: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .spec-item:nth-child(odd) { padding-right: 2rem; border-right: 1px solid var(--line); }
+  .spec-item:nth-child(even) { padding-left: 2rem; }
+  .spec-key { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .spec-val { font-size: 0.9rem; color: var(--ink); font-weight: 400; }
+
+  .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .chip {
+    font-size: 0.78rem; padding: 0.3rem 0.75rem;
+    background: var(--faint); color: #5a5a55; border-radius: 2px;
+  }
+
+  .steps { display: flex; flex-direction: column; }
+  .step {
+    display: grid; grid-template-columns: 48px 1fr; gap: 1.5rem;
+    padding: 1.8rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px); transition: opacity 0.5s, transform 0.5s;
+  }
+  .step:first-child { border-top: 1px solid var(--line); }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step-num { font-family: 'Instrument Serif', serif; font-size: 1.8rem; color: var(--faint); line-height: 1; padding-top: 0.1rem; }
+  .step-title { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+  .step-desc strong { color: var(--ink); font-weight: 500; }
+
+  .results-list { display: flex; flex-direction: column; }
+  .result-item {
+    display: flex; align-items: baseline; gap: 2rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(12px); transition: opacity 0.5s, transform 0.5s;
+  }
+  .result-item:first-child { border-top: 1px solid var(--line); }
+  .result-item.visible { opacity: 1; transform: translateY(0); }
+  .result-val {
+    font-family: 'Instrument Serif', serif; font-size: 2rem;
+    color: var(--warm); line-height: 1; min-width: 150px;
+  }
+  .result-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+  .result-desc strong { color: var(--ink); font-weight: 500; }
+
+  .img-block { opacity: 0; transform: translateY(12px); transition: opacity 0.6s, transform 0.6s; }
+  .img-block.visible { opacity: 1; transform: translateY(0); }
+  .img-block img { width: 70%; display: block; border: 1px solid var(--faint); margin: 0 auto; }
+  .img-caption { margin-top: 0.75rem; font-family: 'Geist Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: var(--muted); text-align: center; }
+
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 1.5rem; }
+  .gallery .img-block img { width: 100%; }
+  .gallery .img-caption { text-align: left; }
+
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .team-member { padding: 0.9rem 0; border-bottom: 1px solid var(--line); font-size: 0.9rem; }
+  .team-member.me { font-weight: 500; color: var(--ink); }
+  .team-member span { display: block; font-family: 'Geist Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm); margin-top: 0.15rem; }
+  .team-meta { margin-top: 2rem; font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
+  .team-meta strong { color: var(--ink); font-weight: 500; }
+
+  .doc-links { display: flex; flex-direction: column; gap: 0.75rem; align-items: flex-start; }
+  .download-link {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--ink); color: var(--bg); text-decoration: none;
+    padding: 0.9rem 1.8rem; font-family: 'Geist Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase; transition: opacity 0.2s; cursor: none;
+  }
+  .download-link:hover { opacity: 0.75; }
+  .download-link.secondary { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .download-link.secondary:hover { border-color: var(--ink); opacity: 1; }
+
+  .project-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; }
+  .proj-nav-link {
+    display: flex; flex-direction: column; gap: 0.3rem;
+    text-decoration: none; color: var(--ink); transition: opacity 0.2s; cursor: none;
+  }
+  .proj-nav-link:hover { opacity: 0.6; }
+  .proj-nav-label { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .proj-nav-title { font-family: 'Instrument Serif', serif; font-size: 1.1rem; }
+  .proj-nav-link.next { text-align: right; }
+
+  footer {
+    padding: 2rem 5rem; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  .footer-name { font-family: 'Instrument Serif', serif; font-size: 0.95rem; color: var(--muted); }
+  .footer-copy { font-family: 'Geist Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); }
+
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    body { cursor: auto; }
+    #cur { display: none; }
+    nav { padding: 0 1.5rem; }
+    .nav-title { display: none; }
+    #hero { padding: 6rem 1.5rem 3rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    .w { padding: 0 1.5rem; }
+    section { padding: 3.5rem 0; }
+    .section-row { grid-template-columns: 1fr; gap: 1rem; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-stats { text-align: left; flex-direction: row; flex-wrap: wrap; gap: 1.5rem 2rem; }
+    .specs-grid, .gallery, .team-grid { grid-template-columns: 1fr; }
+    .spec-item:nth-child(odd) { border-right: none; padding-right: 0; }
+    .spec-item:nth-child(even) { padding-left: 0; }
+    .img-block img { width: 100%; }
+    .result-item { flex-direction: column; gap: 0.5rem; }
+    .result-val { min-width: 0; }
+    .step { grid-template-columns: 36px 1fr; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav id="nav">
+  <a href="../" class="nav-back"><span class="nav-back-arrow">←</span> Portfolio</a>
+  <span class="nav-title">Automated Spice Dispenser</span>
+  <span class="nav-num">06 / 06</span>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-meta">
+    <span class="hero-num">Project 06</span>
+    <span class="hero-tag">Capstone</span>
+    <span class="hero-tag">Mechatronics</span>
+    <span class="hero-tag">ESP32</span>
+    <span class="hero-tag">FDM</span>
+  </div>
+  <h1 class="hero-title">Automated<br><em>Spice Dispenser</em></h1>
+  <div class="hero-bottom">
+    <p class="hero-summary">
+      ME 407 mechanical design capstone: a compact automated spice dispenser with <strong>eight removable cartridges</strong>, auger-based dispensing, <strong>load-cell mass feedback</strong>, recipe storage, and safety interlocks. Design completed; prototype validation planned.
+    </p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-val">8</span>
+        <span class="stat-label">Removable cartridges</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">0.404 mL/s</span>
+        <span class="stat-label">Predicted auger flow rate</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val">11.97</span>
+        <span class="stat-label">Shaft torsional safety factor</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/assembled-cad.png" alt="Assembled CAD view of the automated spice dispenser">
+    <div class="img-caption">Fig. 1 — Assembled CAD view of the automated spice dispenser</div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Overview</div>
+      <div>
+        <div class="prose reveal">
+          <p>Spices are used constantly in kitchens, food-science laboratories, and small-scale catering, where seasoning often needs to be <strong>repeated with consistent amounts</strong>. Manual spooning or shaking is time-consuming, operator-dependent, and prone to cross-contamination when several spices are handled in sequence.</p>
+          <p>Commercial dispensers exist, but many target large-scale use, rely on proprietary capsules, or can't easily be customised for educational prototyping. The goal was a <strong>compact, low-cost automated dispenser</strong> that stores multiple spices separately and dispenses a selected amount in a controlled, repeatable way.</p>
+          <p>The project followed a full design workflow: literature survey, requirement definition, functional decomposition, concept generation, weighted concept selection, detailed design calculations, control-system planning, manufacturing planning, sustainability review, and verification test planning.</p>
+        </div>
+        <div class="specs-grid reveal" style="margin-top:2.5rem">
+          <div class="spec-item"><span class="spec-key">Course</span><span class="spec-val">ME 407 — Mechanical Engineering Design</span></div>
+          <div class="spec-item"><span class="spec-key">Institution</span><span class="spec-val">METU, Dept. of Mechanical Engineering</span></div>
+          <div class="spec-item"><span class="spec-key">Term</span><span class="spec-val">Spring 2026</span></div>
+          <div class="spec-item"><span class="spec-key">Group / Supervisor</span><span class="spec-val">S1 / Sinan Savaskan</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEEDS & SPECS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Requirements</div>
+      <div>
+        <div class="sub-label">Design needs</div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <div class="step-title">Repeatability</div>
+              <div class="step-desc">Spice amounts should remain consistent between repeated recipes.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <div class="step-title">Hygiene</div>
+              <div class="step-desc">Spices should be isolated, and containers removable for cleaning.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <div class="step-title">Usability</div>
+              <div class="step-desc">Direct user selection of spices, amounts, and units.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <div>
+              <div class="step-title">Adaptability</div>
+              <div class="step-desc">Calibration and flexible control, since spices differ in <strong>bulk density, particle size, flow behaviour, and moisture sensitivity</strong>.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-label">Key specifications</div>
+        <div class="specs-grid reveal">
+          <div class="spec-item"><span class="spec-key">Containers</span><span class="spec-val">8 × 200 mL</span></div>
+          <div class="spec-item"><span class="spec-key">Max envelope</span><span class="spec-val">500 × 350 × 350 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Max empty mass</span><span class="spec-val">10 kg</span></div>
+          <div class="spec-item"><span class="spec-key">Operating voltage</span><span class="spec-val">24 V</span></div>
+          <div class="spec-item"><span class="spec-key">Power limit</span><span class="spec-val">50 W</span></div>
+          <div class="spec-item"><span class="spec-key">Max single-spice output</span><span class="spec-val">25 mL</span></div>
+          <div class="spec-item"><span class="spec-key">Dispensing target</span><span class="spec-val">One container within 120 s</span></div>
+          <div class="spec-item"><span class="spec-key">Accuracy target</span><span class="spec-val">±10% above 1 g; 0.1 g below 1 g</span></div>
+          <div class="spec-item"><span class="spec-key">Safety</span><span class="spec-val">Interlocks, removable hygienic cartridges</span></div>
+          <div class="spec-item"><span class="spec-key">User interface</span><span class="spec-val">Digital spice, amount, and unit selection</span></div>
+          <div class="spec-item"><span class="spec-key">Recipes</span><span class="spec-val">Storage and scaling</span></div>
+          <div class="spec-item"><span class="spec-key">Manufacturing</span><span class="spec-val">FDM printing + purchased components</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Selected Concept</div>
+      <div>
+        <div class="prose reveal">
+          <p>After functional decomposition, a morphological chart, and weighted concept evaluation, the <strong>Tech-Premium</strong> concept was selected. It combines removable sealed cartridges, screw-auger dispensing, electric-scale feedback, recipe programmability, and interlock safety.</p>
+        </div>
+        <div class="chips reveal" style="margin-top:1.5rem">
+          <span class="chip">8 removable sealed cartridges</span>
+          <span class="chip">Screw-auger dispensing</span>
+          <span class="chip">Load-cell gravimetric feedback</span>
+          <span class="chip">Digital interface</span>
+          <span class="chip">Recipe programmability</span>
+          <span class="chip">Safety interlocks</span>
+          <span class="chip">FDM-printable parts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLODED IMAGE -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="img-block reveal">
+    <img src="images/exploded-assembly.png" alt="Exploded assembly view showing the main dispenser components">
+    <div class="img-caption">Fig. 2 — Exploded assembly view showing the main dispenser components</div>
+  </div>
+</div>
+
+<!-- OPERATION -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Operation &amp; Control</div>
+      <div>
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <div>
+              <div class="step-title">Select</div>
+              <div class="step-desc">The user picks a spice, amount, and unit on the digital interface. The controller checks that the <strong>cartridge is present and the safety interlock is closed</strong>.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <div>
+              <div class="step-title">Dispense</div>
+              <div class="step-desc">The matching auger motor starts and the auger carries spice out of the selected cartridge.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <div>
+              <div class="step-title">Measure</div>
+              <div class="step-desc">The <strong>load cell</strong> reads dispensed mass continuously, with <strong>vibration filtering</strong> applied to the signal.</div>
+            </div>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <div>
+              <div class="step-title">Stop &amp; record</div>
+              <div class="step-desc">The motor stops when the target mass is reached. Final mass is recorded, the display updates, and recipe data can be stored for reuse.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-label">Main electronics</div>
+        <div class="specs-grid reveal">
+          <div class="spec-item"><span class="spec-key">Controller</span><span class="spec-val">ESP32 control board</span></div>
+          <div class="spec-item"><span class="spec-key">Load-cell interface</span><span class="spec-val">HX711 module</span></div>
+          <div class="spec-item"><span class="spec-key">Motor drivers</span><span class="spec-val">DRV8825 array</span></div>
+          <div class="spec-item"><span class="spec-key">I/O expansion</span><span class="spec-val">Shift register</span></div>
+          <div class="spec-item"><span class="spec-key">Sensing</span><span class="spec-val">Load cell</span></div>
+          <div class="spec-item"><span class="spec-key">Actuation</span><span class="spec-val">Auger drive motors</span></div>
+          <div class="spec-item"><span class="spec-key">Power</span><span class="spec-val">Voltage regulation from 24 V</span></div>
+          <div class="spec-item"><span class="spec-key">Feedback</span><span class="spec-val">Display for status and user feedback</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATIONS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Engineering Analysis</div>
+      <div>
+        <div class="sub-label">Auger geometry &amp; flow</div>
+        <div class="specs-grid reveal">
+          <div class="spec-item"><span class="spec-key">Flight outer diameter</span><span class="spec-val">14 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Core diameter</span><span class="spec-val">8 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Pitch</span><span class="spec-val">8 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Flight thickness</span><span class="spec-val">2 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Active length</span><span class="spec-val">62 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Casing inner diameter</span><span class="spec-val">19 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Fill efficiency</span><span class="spec-val">0.65</span></div>
+          <div class="spec-item"><span class="spec-key">Net volume</span><span class="spec-val">0.404 mL/rev</span></div>
+          <div class="spec-item"><span class="spec-key">Flow at 1 rev/s</span><span class="spec-val">0.404 mL/s</span></div>
+          <div class="spec-item"><span class="spec-key">Required average flow</span><span class="spec-val">0.208 mL/s (25 mL in 120 s)</span></div>
+        </div>
+
+        <div class="sub-label">Drive shaft torsion</div>
+        <div class="specs-grid reveal">
+          <div class="spec-item"><span class="spec-key">Material</span><span class="spec-val">PLA</span></div>
+          <div class="spec-item"><span class="spec-key">Diameter</span><span class="spec-val">14 mm</span></div>
+          <div class="spec-item"><span class="spec-key">Worst-case torque</span><span class="spec-val">0.90 N·m</span></div>
+          <div class="spec-item"><span class="spec-key">Torsional factor of safety</span><span class="spec-val">11.97</span></div>
+        </div>
+
+        <div class="sub-label">Preliminary FEA (static)</div>
+        <div class="specs-grid reveal">
+          <div class="spec-item"><span class="spec-key">Outer housing — max deformation</span><span class="spec-val">≈ 3.18 × 10⁻⁵ m</span></div>
+          <div class="spec-item"><span class="spec-key">Outer housing — max von Mises</span><span class="spec-val">≈ 1.93 × 10⁵ Pa</span></div>
+          <div class="spec-item"><span class="spec-key">Full assembly — max deformation</span><span class="spec-val">≈ 9.74 × 10⁻⁷ m</span></div>
+          <div class="spec-item"><span class="spec-key">Thicker casing — max deformation</span><span class="spec-val">≈ 4.57 × 10⁻⁶ m</span></div>
+          <div class="spec-item"><span class="spec-key">Thicker casing — max von Mises</span><span class="spec-val">≈ 9.83 × 10⁴ Pa</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="w" style="padding-top:3rem; padding-bottom:3rem; border-bottom:1px solid var(--line)">
+  <div class="gallery">
+    <div class="img-block reveal">
+      <img src="images/auger-screw.png" alt="Working drawing of the auger screw">
+      <div class="img-caption">Fig. 3 — Working drawing of the auger screw</div>
+    </div>
+    <div class="img-block reveal">
+      <img src="images/fea-housing.png" alt="FEA total deformation result for the outer housing">
+      <div class="img-caption">Fig. 4 — FEA total deformation result for the outer housing</div>
+    </div>
+  </div>
+</div>
+
+<!-- MANUFACTURING & VERIFICATION -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Manufacturing &amp; Verification</div>
+      <div>
+        <div class="prose reveal">
+          <p>Custom polymer parts, including the <strong>auger and cartridge components</strong>, are planned for <strong>FDM printing</strong>. Motors, electronics, the load cell, and fasteners are purchased, and the unit is assembled manually. The report includes working drawings, route sheets, a make/buy plan, and a preliminary bill of materials.</p>
+          <p>A verification test plan covers storage volume, dimensions, mass, dispensing throughput and accuracy, power consumption, safety, maintainability, and hygiene. <strong>Per-spice calibration, load-cell vibration filtering, final mass measurement, and prototype validation</strong> are essential before real use.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Results</div>
+      <div class="results-list">
+        <div class="result-item">
+          <span class="result-val">0.404 mL/s</span>
+          <div class="result-desc"><strong>Predicted auger flow rate</strong> — nearly double the 0.208 mL/s needed to dispense 25 mL from one container within 120 s.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-val">FoS 11.97</span>
+          <div class="result-desc"><strong>Torsional factor of safety</strong> of the 14 mm PLA drive shaft under the worst-case design torque of 0.90 N·m.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-val">Low stress</span>
+          <div class="result-desc"><strong>Preliminary FEA showed low deformation and stress</strong> for the housing and full assembly under static loading.</div>
+        </div>
+        <div class="result-item">
+          <span class="result-val">Design complete</span>
+          <div class="result-desc"><strong>Prototype manufacturing and verification are the next stage</strong>, following the planned test procedures.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Team</div>
+      <div>
+        <div class="prose reveal" style="margin-bottom:2rem">
+          <p>As a member of a seven-person capstone team, I contributed to the mechanical design and documentation of the dispenser. The project involved requirement definition, concept evaluation, detailed design calculations, CAD/FEA interpretation, manufacturing planning, control-system planning, and final report preparation.</p>
+        </div>
+        <div class="team-grid reveal">
+          <div class="team-member">Abdülhamid Sariyüce</div>
+          <div class="team-member">Arshiya Bolhassani</div>
+          <div class="team-member">Fejiro Akakabota</div>
+          <div class="team-member me">Muhammad Huzaifa Khan Ghory<span>That's me</span></div>
+          <div class="team-member">Oluwasayomipe Adeife Osasona</div>
+          <div class="team-member">Onur Berke Öztürk</div>
+          <div class="team-member">Rameen Khan</div>
+        </div>
+        <div class="team-meta reveal">
+          <strong>Supervisor:</strong> Sinan Savaskan<br>
+          <strong>Course lecturers:</strong> Inst. Dr. Gökhan Osman Özgen and Assoc. Prof. Kıvanç Azgın
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOADS -->
+<section>
+  <div class="w">
+    <div class="section-row">
+      <div class="section-label">Downloads</div>
+      <div class="doc-links reveal">
+        <a href="project_pdfs/ME407_Final_Report_Group_S1.pdf" class="download-link" target="_blank">↓ &nbsp; Full Project Report (PDF)</a>
+        <a href="project_pdfs/ME407_Final_Report_Group_S1.pdf#page=37" class="download-link secondary" target="_blank">Engineering drawings (p. 37)</a>
+        <a href="project_pdfs/ME407_Final_Report_Group_S1.pdf#page=43" class="download-link secondary" target="_blank">Electronics schematic (p. 43)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT NAV -->
+<div class="w">
+  <div class="project-nav">
+    <a href="../gearbox/" class="proj-nav-link">
+      <span class="proj-nav-label">← Previous</span>
+      <span class="proj-nav-title">Gearbox Design</span>
+    </a>
+    <a href="../" class="proj-nav-link next">
+      <span class="proj-nav-label">All projects</span>
+      <span class="proj-nav-title">Back to Portfolio</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Muhammad Huzaifa Khan Ghory</span>
+  <span class="footer-copy">© 2026 · Ankara, Türkiye</span>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px';
+    cur.style.top = e.clientY + 'px';
+  });
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', scrollY > 40);
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .step, .result-item, .img-block').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
